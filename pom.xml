@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>net.crappo</groupId>
-	<artifactId>sample_user-account-management</artifactId>
+	<artifactId>spring-boot-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sample_user-account-management</name>
+	<name>spring-boot-demo</name>
 	<description>Demo project of user account management package for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
