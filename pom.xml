@@ -133,6 +133,37 @@
 		<profile>
 			<id>production</id>
 			<build>
+				<resources>
+					<resource><directory>src/profiles/production/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>staging</id>
+			<build>
+				<resources>
+					<resource><directory>src/profiles/staging/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>development</id>
+			<build>
+				<resources>
+					<resource><directory>src/profiles/development/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>testing</id>
+			<build>
+				<resources>
+					<resource><directory>src/profiles/testing/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
 			</build>
 		</profile>
 	</profiles>
