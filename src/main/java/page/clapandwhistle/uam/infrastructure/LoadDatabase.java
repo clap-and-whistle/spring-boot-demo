@@ -2,10 +2,12 @@ package page.clapandwhistle.uam.infrastructure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import page.clapandwhistle.uam.config.ExternalSettings;
 import page.clapandwhistle.uam.infrastructure.TableModel.UserAccountBase;
 import page.clapandwhistle.uam.infrastructure.TableModel.UserAccountBaseRepository;
 import page.clapandwhistle.uam.infrastructure.TableModel.UserAccountProfile;
@@ -24,11 +26,14 @@ public class LoadDatabase {
 //            log.info("Preloading " + userAccountBaseRepos.save(userAccountBase));
 //        };
 //    }
+    @Autowired
+    private ExternalSettings extSettings;
 
     @Bean
     CommandLineRunner tmp() {
+        String profile = this.extSettings.getMvnProfile();
         return args -> {
-            log.info("CommandLineRunner: no execution");
+            log.info("CommandLineRunner::initDatabase: " + profile);
         };
     }
 }
