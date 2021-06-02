@@ -1,11 +1,6 @@
-# PHP CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-php/ for more details
-#
-
 version: 2
 jobs:
-  build:
+  ci_build:
     docker:
       - image: cwdevwork/cw_maven-3-openjdk-11:v0.0.1
 
@@ -31,4 +26,8 @@ jobs:
           name: maven run tests
           command: mvn clean package spring-boot:repackage
 
-
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - ci_build
