@@ -93,14 +93,13 @@ final public class ForTestUserAggregateRepository implements UserAggregateReposi
     }
 
     public String 使われていないメールアドレスを生成する() {
-        ForTestUserAggregateRepository repos = ForTestUserAggregateRepository.getInstance();
         String email_domain = "@example.local";
         String email_local;
 
         do {
             email_local = this.ランダムな20桁の文字列を生成する();
 //            System.out.println("email_local: " + email_local);
-        } while (repos.isExist(email_local + "@" + email_domain) > 0);
+        } while (this.isExist(email_local + "@" + email_domain) > 0);
         return email_local + "@" + email_domain;
     }
 

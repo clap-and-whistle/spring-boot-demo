@@ -9,15 +9,15 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>net.crappo</groupId>
-	<artifactId>sample_user-account-management</artifactId>
+	<artifactId>spring-boot-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sample_user-account-management</name>
+	<name>spring-boot-demo</name>
 	<description>Demo project of user account management package for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
 		<testcontainers.version>1.15.1</testcontainers.version>
-		<vaadin.version>14.4.6</vaadin.version>
 	</properties>
+	<packaging>war</packaging>
 	<dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -26,6 +26,21 @@
 		<dependency>
 		    <groupId>org.thymeleaf</groupId>
 		    <artifactId>thymeleaf-spring5</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.25</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-maven-plugin</artifactId>
+            <version>7.9.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
@@ -68,10 +83,6 @@
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.1.4</version>
@@ -103,6 +114,11 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -110,13 +126,6 @@
 				<groupId>org.testcontainers</groupId>
 				<artifactId>testcontainers-bom</artifactId>
 				<version>${testcontainers.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-bom</artifactId>
-				<version>${vaadin.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -129,6 +138,22 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>/demo</warName>
+				</configuration>
+			</plugin>
+<!--			$ mvn clean flyway:migrate でマイグレーションを手動実行したいような場合は下記を有効化すると良い -->
+<!--			<plugin>-->
+<!--				<groupId>org.flywaydb</groupId>-->
+<!--				<artifactId>flyway-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<url>jdbc:mysql://db:3306/spring_local?sslMode=disabled&amp;allowPublicKeyRetrieval=TRUE</url>-->
+<!--					<user>javarista</user>-->
+<!--					<password>secret</password>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 
@@ -136,26 +161,37 @@
 		<profile>
 			<id>production</id>
 			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.vaadin</groupId>
-						<artifactId>vaadin-maven-plugin</artifactId>
-						<version>${vaadin.version}</version>
-						<executions>
-							<execution>
-								<id>frontend</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>prepare-frontend</goal>
-									<goal>build-frontend</goal>
-								</goals>
-								<configuration>
-									<productionMode>true</productionMode>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
+				<resources>
+					<resource><directory>src/profiles/production/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>staging</id>
+			<build>
+				<resources>
+					<resource><directory>src/profiles/staging/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>development</id>
+			<build>
+				<resources>
+					<resource><directory>src/profiles/development/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>testing</id>
+			<build>
+				<resources>
+					<resource><directory>src/profiles/testing/resources</directory></resource>
+					<resource><directory>src/main/resources</directory></resource>
+				</resources>
 			</build>
 		</profile>
 	</profiles>
