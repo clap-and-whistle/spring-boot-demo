@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import page.clapandwhistle.uam.infrastructure.AggregateRepository.Exception.RegistrationProcessFailedException;
@@ -68,7 +70,8 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
 
         entityUserAccountBase.setEmail(user.email());
         // TODO: パスワード保存処理の分離（setPasswordは「アカウント作成」と「パスワード変更/再発行」のUseCaseだけ行うようにする）
-        entityUserAccountBase.setPassword(user.password());
+        BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
+        entityUserAccountBase.setPassword(pwEncoder.encode(user.password()));
         entityUserAccountBase.setAccountStatus(user.accountStatus().raw());
         entityUserAccountProfile.setFullName(user.fullName());
         entityUserAccountProfile.setBirthDateStr(user.birthDateStr());
@@ -95,8 +98,9 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         throw new PasswordIsNotMatchException();
     }
 
-    private boolean isPasswordMatch(String password, UserAccountBase userAccountBase) {
-        // TODO: ハッシュ化したパスワードとのマッチング
-        return password.equals(userAccountBase.getPassword());
+    private boolean isPasswordMatch(String input, UserAccountBase userAccountBase) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String savedDigest = userAccountBase.getPassword();
+        return passwordEncoder.matches(input, savedDigest);
     }
 }
