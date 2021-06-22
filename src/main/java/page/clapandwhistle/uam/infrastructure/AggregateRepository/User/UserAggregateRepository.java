@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import page.clapandwhistle.uam.infrastructure.AggregateRepository.Exception.RegistrationProcessFailedException;
@@ -97,8 +98,9 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         throw new PasswordIsNotMatchException();
     }
 
-    private boolean isPasswordMatch(String password, UserAccountBase userAccountBase) {
-        // TODO: ハッシュ化したパスワードとのマッチング
-        return password.equals(userAccountBase.getPassword());
+    private boolean isPasswordMatch(String input, UserAccountBase userAccountBase) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String savedDigest = userAccountBase.getPassword();
+        return passwordEncoder.matches(input, savedDigest);
     }
 }
