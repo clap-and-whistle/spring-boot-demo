@@ -58,7 +58,6 @@ public class UserAccountBase {
     }
 
     public void setPassword(String password) {
-        // TODO: ハッシュ化
         this.password = password;
     }
 
@@ -77,4 +76,6 @@ public class UserAccountBase {
     public void setUserAccountProfile(UserAccountProfile userAccountProfile) {
         this.userAccountProfile = userAccountProfile;
     }
+
+    public String getRole() { return "ROLE_USER"; }
 }
