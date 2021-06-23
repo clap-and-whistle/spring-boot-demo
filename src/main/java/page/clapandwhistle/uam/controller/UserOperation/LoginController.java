@@ -40,6 +40,12 @@ public class LoginController {
         return TEMPLATE_PATH_PREFIX + "complete";
     }
 
+    /**
+     * 下記PRに記載した対応により、このアクションで行う想定だったユースケースの処理詳細は WebAuthSecurityConfiguration へ取って代われられてしまっている
+     * @see https://github.com/clap-and-whistle/spring-boot-demo/pull/8
+     *
+     * TODO: Spring Security の認証処理を分解して、LoginUseCaseクラスの処理以後の部分だけをSpring Securityへ移譲するように改修したい
+     */
     @PostMapping(URL_PATH_PREFIX)
     public String execAction(Model model,
             @RequestParam("email") Optional<String> email,

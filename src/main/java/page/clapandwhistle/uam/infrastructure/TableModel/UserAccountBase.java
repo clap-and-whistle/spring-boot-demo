@@ -58,7 +58,6 @@ public class UserAccountBase {
     }
 
     public void setPassword(String password) {
-        // TODO: ハッシュ化
         this.password = password;
     }
 
