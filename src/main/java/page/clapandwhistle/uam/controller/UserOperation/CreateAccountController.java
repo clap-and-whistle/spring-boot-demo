@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import page.clapandwhistle.uam.controller.open.HomeController;
 import page.clapandwhistle.uam.infrastructure.TableModel.UserAccountBase;
 import page.clapandwhistle.uam.logics.UseCase.UserOperation.CreateAccount.Arguments;
 import page.clapandwhistle.uam.logics.UseCase.UserOperation.CreateAccount.CreateAccountUseCase;
@@ -16,8 +17,9 @@ import page.clapandwhistle.uam.logics.UseCase.UserOperation.CreateAccount.Result
 
 @Controller
 public class CreateAccountController {
-    private final String URL_PATH_PREFIX = "user-account";
-    private final String TEMPLATE_PATH_PREFIX = "user-account";
+    public static final String URL_PATH_PREFIX = "user-account";
+    public static final String URL_PATH_CREATE = "/new";
+    private final String TEMPLATE_PATH_PREFIX = "user-operation/create-account/";
 
     final private CreateAccountUseCase useCase;
 
@@ -27,11 +29,11 @@ public class CreateAccountController {
         this.useCase = useCase;
     }
 
-    @RequestMapping(URL_PATH_PREFIX + "/new")
+    @RequestMapping(URL_PATH_PREFIX + URL_PATH_CREATE)
     public String newAction(Model model) {
         System.out.println("user-account::new: ");
         model.addAttribute("UserAccountBase", new UserAccountBase("", ""));
-        return TEMPLATE_PATH_PREFIX + "/new";
+        return TEMPLATE_PATH_PREFIX + "new";
     }
 
     @PostMapping(URL_PATH_PREFIX)
@@ -40,18 +42,18 @@ public class CreateAccountController {
         System.out.println("user-account::create: password: " + userAccount.getPassword());
         if (result.hasErrors()) {
             System.out.println("user-account::create: BindingResult: " + result.toString());
-            return TEMPLATE_PATH_PREFIX + "/new";
+            return TEMPLATE_PATH_PREFIX + "new";
         } else {
             String ret = "redirect:/";
             try {
                 Result useCaseResult = this.useCase.execute(new Arguments(userAccount.getEmail(), userAccount.getPassword()));
                 if (!useCaseResult.isSuccess()) {
                     System.out.println("user-account::create: " + useCaseResult.eMessage());
-                    ret = TEMPLATE_PATH_PREFIX + "/new";
+                    ret = TEMPLATE_PATH_PREFIX + "new";
                 }
             } catch (Exception e) {
                 System.out.println("user-account::create: " + e.getMessage());
-                ret = "redirect:/e";
+                ret = "redirect:" + HomeController.URL_PATH_UNIFIED_ERROR;
             }
             return ret;
         }

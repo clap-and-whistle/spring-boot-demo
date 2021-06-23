@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import page.clapandwhistle.uam.controller.open.HomeController;
 import page.clapandwhistle.uam.logics.UseCase.UserOperation.Login.Arguments;
 import page.clapandwhistle.uam.logics.UseCase.UserOperation.Login.LoginUseCase;
 import page.clapandwhistle.uam.logics.UseCase.UserOperation.Login.Result;
 
 @Controller
 public class LoginController {
-    private final String URL_PATH_PREFIX = "user-account";
-    private final String TEMPLATE_PATH_PREFIX = "user-account";
+    public static final String URL_PATH_PREFIX = "user-account/login";
+    public static final String URL_PATH_LOGIN_FORM = "/input";
+    public static final String URL_PATH_LOGIN_COMPLETE = "/complete";
+    public static final String TEMPLATE_PATH_PREFIX = "user-operation/login/";
 
     final private LoginUseCase useCase;
 
@@ -25,19 +28,19 @@ public class LoginController {
         this.useCase = useCase;
     }
 
-    @RequestMapping(URL_PATH_PREFIX + "/login")
+    @RequestMapping(URL_PATH_PREFIX + URL_PATH_LOGIN_FORM)
     public String inputAction() {
         System.out.println("user-account::login::inputAction ");
-        return TEMPLATE_PATH_PREFIX + "/login";
+        return TEMPLATE_PATH_PREFIX + "input";
     }
 
-    @RequestMapping(URL_PATH_PREFIX + "/login-complete")
+    @RequestMapping(URL_PATH_PREFIX + URL_PATH_LOGIN_COMPLETE)
     public String completeAction() {
         System.out.println("user-account::login::completeAction ");
-        return TEMPLATE_PATH_PREFIX + "/login-complete";
+        return TEMPLATE_PATH_PREFIX + "complete";
     }
 
-    @PostMapping(URL_PATH_PREFIX + "/login")
+    @PostMapping(URL_PATH_PREFIX)
     public String execAction(Model model,
             @RequestParam("email") Optional<String> email,
             @RequestParam("password") Optional<String> password) {
@@ -51,11 +54,11 @@ public class LoginController {
                         , password.get()
                     ));
             ret = result.isSuccess()
-                ? "redirect:/" + TEMPLATE_PATH_PREFIX + "/login-complete"
-                : TEMPLATE_PATH_PREFIX + "/login";
+                ? ret + URL_PATH_PREFIX + URL_PATH_LOGIN_COMPLETE
+                : ret + URL_PATH_PREFIX + URL_PATH_LOGIN_FORM;
             System.out.println("user-account::login::execAction, result: " + (result.isSuccess() ? result.isSuccess() : result.eMessage()));
         } catch (Exception e) {
-            ret = "redirect:/e";
+            ret = "redirect:" + HomeController.URL_PATH_UNIFIED_ERROR;
         }
 
         return ret;
