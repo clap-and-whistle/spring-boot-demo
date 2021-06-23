@@ -77,4 +77,6 @@ public class UserAccountBase {
     public void setUserAccountProfile(UserAccountProfile userAccountProfile) {
         this.userAccountProfile = userAccountProfile;
     }
+
+    public String getRole() { return "ROLE_USER"; }
 }
