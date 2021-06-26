@@ -45,6 +45,8 @@ public class WebAuthSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
+            .antMatchers("/h2-console/**")
+                .hasRole("ADMIN")
             .antMatchers(
                     /* 認証不要なURLのリスト */
                     "/",
@@ -55,7 +57,11 @@ public class WebAuthSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     "/" + CreateAccountController.URL_PATH_PREFIX + CreateAccountController.URL_PATH_CREATE
                 ).permitAll()
             /* それ以外はすべて認証を必要とする */
-            .anyRequest().authenticated();
+            .anyRequest().authenticated()
+            /* h2-consoleについての許可をいくつか */
+            .and().csrf().ignoringAntMatchers("/h2-console/**")
+            .and().headers().frameOptions().sameOrigin();
+;
 
         http.formLogin()
             /* ログイン処理を行うURL */
