@@ -59,15 +59,15 @@
 6. 以下の各種操作を行う（**URLはブラウザのアドレスバーへ直接入力してください**）
     1. http://localhost:8080/
         - Home の表示がされる
-    2. http://localhost:8080/user-account/login
+    2. http://localhost:8080/user-account/login/input
         - ログイン画面が表示される
         - Email「hoge01@example.local」、password「hoge01TEST」でログインを行い、「MyWorkController」の文字のある画面が表示される
-    3. http://localhost:8080/user-account/login
+    3. http://localhost:8080/user-account/login/input
         - 前項とは異なる任意のメールアドレスでログインを行い、コンソールに「入力されたメールアドレスを使用するユーザはいません」のエラーメッセージが表示される
     4. http://localhost:8080/user-account/new
         - アカウント作成の申請画面が表示される
         - Email「hoge02@example.local」、password「hoge02TEST」で「新規アカウントを作成する」ボタンのクリックを行い、Home の表示がされる
-    5. http://localhost:8080/user-account/login
+    5. http://localhost:8080/user-account/login/input
         - Email「hoge02@example.local」、password「hoge02TEST」でログインを行い、「MyWorkController」の文字のある画面が表示される
     - ※実は上記の 2. と 5. の結果は要件定義・設計の考慮漏れ。
         - 「申請中」のステータスであるにも関わらずログインできてしまっているのは、当初の想定とは違った挙動です。
