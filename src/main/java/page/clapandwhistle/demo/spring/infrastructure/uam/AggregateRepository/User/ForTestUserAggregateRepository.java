@@ -27,18 +27,18 @@ final public class ForTestUserAggregateRepository implements UserAggregateReposi
 
     /* シングルトン */
     private ForTestUserAggregateRepository() {
-        this.save(new User(
+        this.save(User.buildForTestData(
                 ForTestUserAggregateRepository.例外用_ユーザID_1_申請中
                 , ForTestUserAggregateRepository.例外用_ユーザID_1_申請中メールアドレス
                 , ForTestUserAggregateRepository.テスト用Password
-                , AccountStatus.APPLYING
+                , AccountStatus.APPLYING.raw()
                 , "ほげ田ほげ夫"
                 , null));
-        this.save(new User(
+        this.save(User.buildForTestData(
                 ForTestUserAggregateRepository.例外用_ユーザID_2_既に使用中
                 , ForTestUserAggregateRepository.例外用_ユーザID_2_既に使用されているメールアドレス
                 , ForTestUserAggregateRepository.テスト用Password
-                , AccountStatus.IN_OPERATION
+                , AccountStatus.IN_OPERATION.raw()
                 , null
                 , "19771231"));
     }
@@ -79,14 +79,16 @@ final public class ForTestUserAggregateRepository implements UserAggregateReposi
         long id = user.id();
         if (id == 0) {
             id = (new Random().nextInt(10000)) + 1;
-            user = new User(
+            user = User.buildForTestData(
                     id
                     , user.email()
                     , user.password()
-                    , user.accountStatus()
+                    , user.accountStatus().raw()
                     , user.fullName()
                     , user.birthDateStr()
                 );
+//        } else {
+//          TODO: 更新の場合の処理は、実装時に別途用意する
         }
         masterAccountList.put(id, user);
         return id;

@@ -35,11 +35,10 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         UserAccountProfile userAccountProfile = userAccountBase.getUserAccountProfile();
         return optUserAccountBase.isEmpty()
             ? null
-            : new User(
+            : User.buildForFind(
                     userAccountBase.getId()
                     , userAccountBase.getEmail()
-                    , null
-                    , AccountStatus.getByRaw(userAccountBase.getAccount_status())
+                    , userAccountBase.getAccountStatus()
                     , userAccountProfile.getFullName()
                     , userAccountProfile.getBirthDateStr()
                 );
@@ -59,7 +58,7 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         Optional<UserAccountBase> optUserAccountBase = this.tableRepoUserAccountBase.findById(userId);
         return optUserAccountBase.isEmpty()
             ? false
-            : AccountStatus.APPLYING.raw() == optUserAccountBase.get().getAccount_status();
+            : AccountStatus.APPLYING.raw() == optUserAccountBase.get().getAccountStatus();
     }
 
     @Override
