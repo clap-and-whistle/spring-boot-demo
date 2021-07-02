@@ -45,7 +45,7 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
     }
 
     @Override
-    public long isExist(String email) {
+    public long getUserIdByEmail(String email) {
         List<UserAccountBase> listUserAccountBase = this.tableRepoUserAccountBase.findByEmail(email);
         if (listUserAccountBase.isEmpty())  return 0;
         if (listUserAccountBase.size() > 1) throw new RuntimeException("複数ヒットしました");

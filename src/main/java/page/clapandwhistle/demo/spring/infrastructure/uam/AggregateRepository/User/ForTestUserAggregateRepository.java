@@ -58,7 +58,7 @@ final public class ForTestUserAggregateRepository implements UserAggregateReposi
     }
 
     @Override
-    public long isExist(String email) {
+    public long getUserIdByEmail(String email) {
         User user;
         for (Map.Entry<Long, User> entry : this.masterAccountList.entrySet()) {
             user = entry.getValue();
@@ -101,7 +101,7 @@ final public class ForTestUserAggregateRepository implements UserAggregateReposi
         do {
             email_local = this.ランダムな20桁の文字列を生成する();
 //            System.out.println("email_local: " + email_local);
-        } while (this.isExist(email_local + "@" + email_domain) > 0);
+        } while (this.getUserIdByEmail(email_local + "@" + email_domain) > 0);
         return email_local + "@" + email_domain;
     }
 

@@ -4,7 +4,7 @@ import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.User;
 import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.Exception.RegistrationProcessFailedException;
 
 public interface UserAggregateRepositoryInterface {
-    public long isExist(String email);
+    public long getUserIdByEmail(String email);
 
     public boolean isApplying(long userId);
 

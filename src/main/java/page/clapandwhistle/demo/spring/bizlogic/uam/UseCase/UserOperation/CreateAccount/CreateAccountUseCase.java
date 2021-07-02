@@ -32,7 +32,7 @@ final public class CreateAccountUseCase {
         long userId;
 
         try {
-            userId = userRepos.isExist(args.getEmail());
+            userId = userRepos.getUserIdByEmail(args.getEmail());
             if (userId > 0) {
                 throw userRepos.isApplying(userId)
                     ? new ApplyingException()
