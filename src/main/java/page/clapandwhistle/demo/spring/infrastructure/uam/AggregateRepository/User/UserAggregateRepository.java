@@ -35,18 +35,17 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         UserAccountProfile userAccountProfile = userAccountBase.getUserAccountProfile();
         return optUserAccountBase.isEmpty()
             ? null
-            : new User(
+            : User.buildForFind(
                     userAccountBase.getId()
                     , userAccountBase.getEmail()
-                    , null
-                    , AccountStatus.getByRaw(userAccountBase.getAccount_status())
+                    , userAccountBase.getAccountStatus()
                     , userAccountProfile.getFullName()
                     , userAccountProfile.getBirthDateStr()
                 );
     }
 
     @Override
-    public long isExist(String email) {
+    public long getUserIdByEmail(String email) {
         List<UserAccountBase> listUserAccountBase = this.tableRepoUserAccountBase.findByEmail(email);
         if (listUserAccountBase.isEmpty())  return 0;
         if (listUserAccountBase.size() > 1) throw new RuntimeException("複数ヒットしました");
@@ -59,7 +58,7 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         Optional<UserAccountBase> optUserAccountBase = this.tableRepoUserAccountBase.findById(userId);
         return optUserAccountBase.isEmpty()
             ? false
-            : AccountStatus.APPLYING.raw() == optUserAccountBase.get().getAccount_status();
+            : AccountStatus.APPLYING.raw() == optUserAccountBase.get().getAccountStatus();
     }
 
     @Override

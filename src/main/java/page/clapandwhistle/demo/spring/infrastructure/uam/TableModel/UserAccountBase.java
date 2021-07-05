@@ -61,7 +61,7 @@ public class UserAccountBase {
         this.password = password;
     }
 
-    public int getAccount_status() {
+    public int getAccountStatus() {
         return account_status;
     }
 
