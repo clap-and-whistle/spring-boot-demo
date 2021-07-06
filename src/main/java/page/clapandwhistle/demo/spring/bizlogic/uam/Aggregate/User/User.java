@@ -20,8 +20,25 @@ final public class User {
     private String fullName;
     private String birthDateStr;
 
-    public static User buildForCreate(String email, String password) {
-        return buildForCreate(email, password, null, null);
+    private User(long id, String email, String password, AccountStatus accountStatus, String fullName, String birthDateStr) {
+        this.id = id;
+        this.email = makeNonNullString(email);
+        this.password = makeNonNullString(password);
+        this.accountStatus = accountStatus;
+        this.fullName = makeNonNullString(fullName);
+        this.birthDateStr = makeNonNullString(birthDateStr);
+    }
+
+    /**
+     * テスト用データの作成を必要としているクラスでなら使って良い
+     * @deprecated
+     */
+    public static User buildForTestData(long id, String email, String password, int accountStatus, String fullName, String birthDateStr) {
+        return new User(id, email, password, AccountStatus.getByRaw(accountStatus), fullName, birthDateStr);
+    }
+
+    public static User buildForFind(long id, String email, int accountStatus, String fullName, String birthDateStr) {
+        return new User(id, email, "", AccountStatus.getByRaw(accountStatus), fullName, birthDateStr);
     }
 
     public static User buildForCreate(String email, String password, String fullName, String birthDateStr) {
@@ -42,15 +59,6 @@ final public class User {
             throw new BirthDateStrInvalidException();
 
         return user;
-    }
-
-    public User(long id, String email, String password, AccountStatus accountStatus, String fullName, String birthDateStr) {
-        this.id = id;
-        this.email = makeNonNullString(email);
-        this.password = makeNonNullString(password);
-        this.accountStatus = accountStatus;
-        this.fullName = makeNonNullString(fullName);
-        this.birthDateStr = makeNonNullString(birthDateStr);
     }
 
     private boolean isValidPasswordSize() throws PasswordSizeTooShortException {

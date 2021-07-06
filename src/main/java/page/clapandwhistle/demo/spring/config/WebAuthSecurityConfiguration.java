@@ -7,30 +7,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import page.clapandwhistle.demo.spring.controller.desk.MyWorkController;
 import page.clapandwhistle.demo.spring.controller.open.HomeController;
 import page.clapandwhistle.demo.spring.controller.uam.UserOperation.CreateAccountController;
 import page.clapandwhistle.demo.spring.controller.uam.UserOperation.LoginController;
-import page.clapandwhistle.demo.spring.framework.security.AuthUserDetailsService;
+import page.clapandwhistle.demo.spring.framework.security.CustomAuthenticationProvider;
 import page.clapandwhistle.demo.spring.framework.security.SpringAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebAuthSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
-    AuthUserDetailsService userDetailsService;
-
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    CustomAuthenticationProvider authenticationProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+        auth.authenticationProvider(authenticationProvider);
     }
 
     @Override
@@ -73,7 +67,12 @@ public class WebAuthSecurityConfiguration extends WebSecurityConfigurerAdapter {
             /* 認証成功時のデフォルトのジャンプ先 */
             .defaultSuccessUrl("/" + MyWorkController.URL_PATH_PREFIX + MyWorkController.URL_PATH_INDEX)
             /* 認証に使用する入力値セット */
-            .usernameParameter("email").passwordParameter("password")
-            .and();
+            .usernameParameter("email").passwordParameter("password");
+
+        http.logout()
+            /* ログアウト処理のURL */
+            .logoutRequestMatcher(new AntPathRequestMatcher(LoginController.URL_PATH_LOGOUT + "/**"))
+            /* ログアウト完了後は、ひとまずログイン画面を表示 */
+            .logoutSuccessUrl("/" + LoginController.URL_PATH_PREFIX + LoginController.URL_PATH_LOGIN_FORM);
     }
 }
