@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import page.clapandwhistle.demo.spring.controller.ec.adm.ItemsMasterController;
 import page.clapandwhistle.demo.spring.controller.open.HomeController;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,6 +34,10 @@ public class HomeControllerTest {
     public void getIndexTest() throws Exception {
         mockMvc.perform(get("/"))
             .andExpect(status().isOk())    // 200 OK
-            .andExpect(view().name("open/home/index"));
+            .andExpect(view().name("open/home/index"))
+            .andExpect(model().attribute(
+                "url_path_ec",
+                ItemsMasterController.URL_PATH_PREFIX + ItemsMasterController.URL_PATH_LIST
+            ));
     }
 }

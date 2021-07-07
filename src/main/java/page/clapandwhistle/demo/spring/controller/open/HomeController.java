@@ -3,6 +3,7 @@ package page.clapandwhistle.demo.spring.controller.open;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import page.clapandwhistle.demo.spring.controller.ec.adm.ItemsMasterController;
 import page.clapandwhistle.demo.spring.controller.admin.SystemConsoleController;
 import page.clapandwhistle.demo.spring.controller.desk.MyWorkController;
 import page.clapandwhistle.demo.spring.controller.uam.SysAdminOperation.AdmLoginController;
@@ -15,6 +16,10 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index(Model model) {
+        model.addAttribute(
+                "url_path_ec",
+                ItemsMasterController.URL_PATH_PREFIX + ItemsMasterController.URL_PATH_LIST
+        );
 
         String openIndexPath = "/"
                 + PublicController.URL_PATH_PREFIX
