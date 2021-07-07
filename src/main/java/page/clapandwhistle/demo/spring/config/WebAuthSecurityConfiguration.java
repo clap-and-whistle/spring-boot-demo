@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import page.clapandwhistle.demo.spring.controller.desk.MyWorkController;
+import page.clapandwhistle.demo.spring.controller.ec.adm.ItemsMasterController;
 import page.clapandwhistle.demo.spring.controller.open.HomeController;
 import page.clapandwhistle.demo.spring.controller.uam.UserOperation.CreateAccountController;
 import page.clapandwhistle.demo.spring.controller.uam.UserOperation.LoginController;
@@ -46,6 +47,7 @@ public class WebAuthSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     "/",
                     "/error",   // SpringBoot標準のエラー画面
                     HomeController.URL_PATH_UNIFIED_ERROR,
+                    "/" + ItemsMasterController.URL_PATH_PREFIX + "/**",
                     "/" + LoginController.URL_PATH_PREFIX + LoginController.URL_PATH_LOGIN_FORM,
                     "/" + CreateAccountController.URL_PATH_PREFIX,
                     "/" + CreateAccountController.URL_PATH_PREFIX + CreateAccountController.URL_PATH_CREATE
