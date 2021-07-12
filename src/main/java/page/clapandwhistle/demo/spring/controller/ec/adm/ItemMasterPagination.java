@@ -10,6 +10,7 @@ import page.clapandwhistle.demo.spring.infrastructure.ec.TableModel.ItemMasterRe
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 final public class ItemMasterPagination {
@@ -39,4 +40,12 @@ final public class ItemMasterPagination {
         return new PageImpl<ItemMaster>(dispItems, PageRequest.of(currentPageNum, pageSize), allItems.size());
     }
 
+    public ItemMaster get(long id) throws RuntimeException {
+        Optional<ItemMaster> opt = this.itemMasterRepos.findById(id);
+        if (opt.isPresent()) {
+            return opt.get();
+        } else {
+            throw new RuntimeException("該当する有効なデータがありません");
+        }
+    }
 }
