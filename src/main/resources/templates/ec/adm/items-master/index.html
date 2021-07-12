@@ -24,19 +24,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-  <title>商品一覧</title>
+  <!--/*@thymesVar id="page_tilte" type="java.lang.String"*/-->
+  <title th:text="${page_title}"></title>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" th:href="@{/open/items}">商品管理デモ</a> <a
-            class="navbar-brand" th:href="@{/open/items/new}">商品登録</a>
-    </div>
-  </div>
-</nav>
 <div class="container">
-  <h1>Item List</h1>
+  <nav class="navbar navbar-inverse">
+    <!--/*@thymesVar id="links" type="java.util.HashMap"*/-->
+    <ul class="navbar-header">
+      <li class="navbar-brand" th:each="entry: ${links}">
+        <a th:href="@{${entry.key}}" th:text="${entry.value}"></a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>商品一覧</h1>
+    <table border="1">
+      <thead>
+      <tr>
+        <th th:text="#{msg.id}" />
+        <th th:text="#{msg.name}" />
+        <th th:text="#{msg.price}" />
+        <th th:text="#{msg.vendor}" />
+      </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+  </div>
+
 </div>
 </body>
 </html>
