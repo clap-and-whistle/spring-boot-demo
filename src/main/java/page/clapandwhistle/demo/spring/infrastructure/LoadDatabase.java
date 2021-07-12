@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import page.clapandwhistle.demo.spring.config.ExternalSettings;
+import page.clapandwhistle.demo.spring.infrastructure.ec.TableModel.ItemMaster;
+import page.clapandwhistle.demo.spring.infrastructure.ec.TableModel.ItemMasterRepository;
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountBase;
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountBaseRepository;
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountProfile;
@@ -21,7 +23,7 @@ public class LoadDatabase {
     private ExternalSettings extSettings;
 
     @Bean
-    CommandLineRunner initDatabase(UserAccountBaseRepository userAccountBaseRepos) {
+    CommandLineRunner initDatabase(ItemMasterRepository itemMasterRepos, UserAccountBaseRepository userAccountBaseRepos) {
         String profile = this.extSettings.getMvnProfile();
         return args -> {
             log.info("CommandLineRunner::initDatabase: " + profile);
@@ -32,6 +34,14 @@ public class LoadDatabase {
                         "$2a$10$rKNNt5Np1tRUx3vArlZwJ.jTgNspEfD/hLyZjLPeMAX5N0nhbvb7G" // "hoge01TEST"
                 );
                 userAccountBase.setUserAccountProfile(new UserAccountProfile("hoge01", "20000410"));
+
+                /* ECパッケージ用のダミー商品マスタを登録する */
+                log.info("Preloading " + itemMasterRepos.save(new ItemMaster("ほげ検出装置", 10000, "hoge Inc.")));
+                log.info("Preloading " + itemMasterRepos.save(new ItemMaster("ほげ採取マシーン", 25000, "hoge Inc.")));
+                log.info("Preloading " + itemMasterRepos.save(new ItemMaster("ふが浄化装置", 150000, "fuga Inc.")));
+                log.info("Preloading " + itemMasterRepos.save(new ItemMaster("ふが製造機", 550000, "fuga Inc.")));
+                log.info("Preloading " + itemMasterRepos.save(new ItemMaster("ぴよぴよ", 1500, "piyo Inc.")));
+                log.info("Preloading " + itemMasterRepos.save(new ItemMaster("ぴよぴよ２", 1500, "piyo Inc.")));
                 log.info("  Preloading " + userAccountBaseRepos.save(userAccountBase));
             } else {
                 log.info("  No Preloading: ");
