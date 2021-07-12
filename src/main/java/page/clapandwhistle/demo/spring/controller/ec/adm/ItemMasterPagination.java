@@ -48,4 +48,9 @@ final public class ItemMasterPagination {
             throw new RuntimeException("該当する有効なデータがありません");
         }
     }
+
+    public void delete(long id) {
+        Optional<ItemMaster> opt = this.itemMasterRepos.findById(id);
+        opt.ifPresent(this.itemMasterRepos::delete);
+    }
 }

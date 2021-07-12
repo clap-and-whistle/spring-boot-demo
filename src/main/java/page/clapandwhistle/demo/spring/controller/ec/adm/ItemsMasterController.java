@@ -143,9 +143,14 @@ public class ItemsMasterController {
         }
     }
 
-    @DeleteMapping(URL_PATH_PREFIX + "/{id}")
-    public String deleteAction() {
+    @PostMapping(URL_PATH_PREFIX + "/{id}/delete")
+    public String deleteAction(@PathVariable("id") Long id, @RequestParam String _method) {
         System.out.println("ItemsMasterController::delete: ");
+        if (_method.equals("delete")) {
+            this.itemsPagination.delete(id);
+        } else {
+            System.out.println("ItemsMasterController::delete: Invalid Access");
+        }
         return "redirect:/" + URL_PATH_PREFIX + URL_PATH_LIST;
     }
 }
