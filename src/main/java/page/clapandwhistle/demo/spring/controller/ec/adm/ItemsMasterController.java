@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import page.clapandwhistle.demo.spring.bizlogic.ec.Aggregate.ItemBasicInfo;
 import page.clapandwhistle.demo.spring.bizlogic.ec.UseCase.Adm.AddItemBasicInfoUseCase;
+import page.clapandwhistle.demo.spring.bizlogic.ec.UseCase.Adm.UpdateItemBasicInfoUseCase;
 import page.clapandwhistle.demo.spring.infrastructure.ec.TableModel.ItemMaster;
 
 import java.util.HashMap;
@@ -29,14 +30,16 @@ public class ItemsMasterController {
 
     private final ItemMasterPagination itemsPagination;
     private final AddItemBasicInfoUseCase addUseCase;
+    private final UpdateItemBasicInfoUseCase updateUseCase;
 
     @Autowired
     public ItemsMasterController(
             ItemMasterPagination itemsPagination,
-            AddItemBasicInfoUseCase addUseCase
-    ) {
+            AddItemBasicInfoUseCase addUseCase,
+            UpdateItemBasicInfoUseCase updateUseCase) {
         this.itemsPagination = itemsPagination;
         this.addUseCase = addUseCase;
+        this.updateUseCase = updateUseCase;
     }
 
     @GetMapping(URL_PATH_PREFIX + URL_PATH_LIST)
@@ -110,20 +113,39 @@ public class ItemsMasterController {
 
         modelForTh.addAttribute("item", this.itemsPagination.get(id));
         modelForTh.addAttribute("page_title", PAGE_TITLE);
-        modelForTh.addAttribute("url_path_prefix", URL_PATH_PREFIX);
+        modelForTh.addAttribute("url_path_edit", "./" + id + "/edit");
         return "ec/adm/items-master/show";
     }
 
     @GetMapping(URL_PATH_PREFIX + "/{id}/edit")
-    public String editAction() {
-        System.out.println("ItemsMasterController::edit: ");
+    public String editAction(@PathVariable("id") Long id, Model modelForTh) {
+        System.out.println("ItemsMasterController::edit: id: " + id);
+
+        Map<String, String> links = new HashMap<>();
+        links.put(".." + URL_PATH_LIST, "商品一覧");
+        links.put(".." + URL_PATH_NEW, "商品登録");
+        modelForTh.addAttribute("links", links);
+        modelForTh.addAttribute("page_title", PAGE_TITLE);
+
+        modelForTh.addAttribute("item", this.itemsPagination.get(id));
+        modelForTh.addAttribute("page_title", PAGE_TITLE);
+        modelForTh.addAttribute("form_action", "../" + id);
         return "ec/adm/items-master/edit";
     }
 
-    @PutMapping(URL_PATH_PREFIX + "/{id}")
-    public String updateAction() {
-        System.out.println("ItemsMasterController::update: ");
-        return "redirect:/" + URL_PATH_PREFIX + URL_PATH_LIST;
+    @PostMapping(URL_PATH_PREFIX + "/{id}")
+    public String updateAction(@PathVariable("id") Long id, @ModelAttribute("item") @Validated ItemBasicInfo item, BindingResult result) {
+        System.out.println("ItemsMasterController::update: id: " + id);
+        System.out.println("ItemsMasterController::create: name: " + item.name());
+        System.out.println("ItemsMasterController::create: price: " + item.price());
+        System.out.println("ItemsMasterController::create: vendor" + item.vendor());
+        if (result.hasErrors()) {
+            System.out.println("ItemsMasterController::update: error: " + result.getErrorCount());
+            return "redirect:/" + URL_PATH_PREFIX + "/" + id + "/edit";
+        } else {
+            this.updateUseCase.execute(id, item.name(), item.price(), item.vendor());
+            return "redirect:/" + URL_PATH_PREFIX + URL_PATH_LIST;
+        }
     }
 
     @DeleteMapping(URL_PATH_PREFIX + "/{id}")
