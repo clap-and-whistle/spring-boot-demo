@@ -5,8 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import page.clapandwhistle.demo.spring.bizlogic.ec.Aggregate.ItemBasicInfo;
+import page.clapandwhistle.demo.spring.bizlogic.ec.UseCase.Adm.AddItemBasicInfoUseCase;
 import page.clapandwhistle.demo.spring.infrastructure.ec.TableModel.ItemMaster;
 
 import java.util.HashMap;
@@ -25,10 +28,15 @@ public class ItemsMasterController {
     private final String PAGE_TITLE = "商品マスタ管理";
 
     private final ItemMasterPagination itemsPagination;
+    private final AddItemBasicInfoUseCase addUseCase;
 
     @Autowired
-    public ItemsMasterController(ItemMasterPagination itemsPagination) {
+    public ItemsMasterController(
+            ItemMasterPagination itemsPagination,
+            AddItemBasicInfoUseCase addUseCase
+    ) {
         this.itemsPagination = itemsPagination;
+        this.addUseCase = addUseCase;
     }
 
     @GetMapping(URL_PATH_PREFIX + URL_PATH_LIST)
@@ -77,6 +85,21 @@ public class ItemsMasterController {
         return "ec/adm/items-master/new";
     }
 
+    @PostMapping(URL_PATH_PREFIX)
+    public String storeAction(@ModelAttribute("item") @Validated ItemBasicInfo item, BindingResult result) {
+        System.out.println("ItemsMasterController::store: ");
+        System.out.println("ItemsMasterController::create: name: " + item.name());
+        System.out.println("ItemsMasterController::create: price: " + item.price());
+        System.out.println("ItemsMasterController::create: vendor" + item.vendor());
+        if (result.hasErrors()) {
+            System.out.println("ItemsMasterController::store: error: " + result.getErrorCount());
+            return "redirect:/" + URL_PATH_PREFIX + URL_PATH_NEW;
+        } else {
+            this.addUseCase.execute(item.name(), item.price(), item.vendor());
+            return "redirect:/" + URL_PATH_PREFIX + URL_PATH_LIST;
+        }
+    }
+
     @GetMapping(URL_PATH_PREFIX + "/{id}")
     public String showAction(@PathVariable Long id, Model modelForTh) {
         System.out.println("ItemsMasterController::show: ");
@@ -95,12 +118,6 @@ public class ItemsMasterController {
     public String editAction() {
         System.out.println("ItemsMasterController::edit: ");
         return "ec/adm/items-master/edit";
-    }
-
-    @PostMapping(URL_PATH_PREFIX)
-    public String storeAction() {
-        System.out.println("ItemsMasterController::store: ");
-        return "redirect:/" + URL_PATH_PREFIX + URL_PATH_LIST;
     }
 
     @PutMapping(URL_PATH_PREFIX + "/{id}")
