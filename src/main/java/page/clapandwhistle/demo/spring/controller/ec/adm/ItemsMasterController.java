@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import page.clapandwhistle.demo.spring.bizlogic.ec.Aggregate.ItemBasicInfo;
 import page.clapandwhistle.demo.spring.infrastructure.ec.TableModel.ItemMaster;
 
 import java.util.HashMap;
@@ -64,14 +65,29 @@ public class ItemsMasterController {
     }
 
     @GetMapping(URL_PATH_PREFIX + URL_PATH_NEW)
-    public String newAction() {
+    public String newAction(Model modelForTh) {
         System.out.println("ItemsMasterController::new: ");
+        Map<String, String> links = new HashMap<>();
+        links.put("." + URL_PATH_LIST, "商品一覧");
+        modelForTh.addAttribute("links", links);
+
+        modelForTh.addAttribute("item", new ItemBasicInfo((long) 0, "", 0, ""));
+        modelForTh.addAttribute("page_title", PAGE_TITLE);
+        modelForTh.addAttribute("form_action", "/" + URL_PATH_PREFIX);
         return "ec/adm/items-master/new";
     }
 
     @GetMapping(URL_PATH_PREFIX + "/{id}")
-    public String showAction() {
+    public String showAction(@PathVariable Long id, Model modelForTh) {
         System.out.println("ItemsMasterController::show: ");
+        Map<String, String> links = new HashMap<>();
+        links.put("." + URL_PATH_LIST, "商品一覧");
+        links.put("." + URL_PATH_NEW, "商品登録");
+        modelForTh.addAttribute("links", links);
+
+        modelForTh.addAttribute("item", this.itemsPagination.get(id));
+        modelForTh.addAttribute("page_title", PAGE_TITLE);
+        modelForTh.addAttribute("url_path_prefix", URL_PATH_PREFIX);
         return "ec/adm/items-master/show";
     }
 
