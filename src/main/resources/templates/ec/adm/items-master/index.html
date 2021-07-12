@@ -48,7 +48,7 @@
         <th th:text="#{msg.price}" />
         <th th:text="#{msg.vendor}" />
       </tr>
-      <tr th:each="item, iStat: ${items}"
+      <tr th:each="item, iStat : ${itemsPage.content}"
           th:style="${iStat.odd}? 'font-weight: bold;'"
           th:alt-title="${iStat.even}? 'even' : 'odd'">
         <td th:text="${item.id}" />
@@ -61,7 +61,24 @@
       </tbody>
     </table>
 
+    <div class="pagination">
+      <div th:if="${itemsPage.totalPages > 0}"
+        th:each="pageNumber : ${pageNumbers}">
+        <a
+          th:href="@{./(size=${itemsPage.size}, page=${pageNumber})}"
+          th:text="${pageNumber}"
+          th:class="${pageNumber==itemsPage.number + 1} ? active"></a>
+      </div>
+    </div>
+
+    <div>
+      <p>
+        <a th:href="@{/}" th:text="#{msg.Home}"></a>
+      </p>
+    </div>
   </div>
+  <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
 
 </div>
 </body>
