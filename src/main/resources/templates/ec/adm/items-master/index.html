@@ -48,6 +48,14 @@
         <th th:text="#{msg.price}" />
         <th th:text="#{msg.vendor}" />
       </tr>
+      <tr th:each="item, iStat: ${items}"
+          th:style="${iStat.odd}? 'font-weight: bold;'"
+          th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td th:text="${item.id}" />
+        <td><a th:text="${item.name}" th:href="|./${item.id}|" /></td>
+        <td><a th:text="${item.price}" /></td>
+        <td><a th:text="${item.vendor}" /></td>
+      </tr>
       </thead>
       <tbody>
       </tbody>

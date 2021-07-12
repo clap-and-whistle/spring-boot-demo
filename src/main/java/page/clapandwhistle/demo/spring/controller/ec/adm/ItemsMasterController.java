@@ -1,11 +1,13 @@
 package page.clapandwhistle.demo.spring.controller.ec.adm;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import page.clapandwhistle.demo.spring.infrastructure.ec.TableModel.ItemMasterRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,9 @@ public class ItemsMasterController {
 
     private final String PAGE_TITLE = "商品マスタ管理";
 
+    @Autowired
+    private ItemMasterRepository itemMasterRepository;
+
     @GetMapping(URL_PATH_PREFIX + URL_PATH_LIST)
     public String indexAction(Model modelForTh) {
         System.out.println("ItemsMasterController::index: ");
@@ -26,6 +31,8 @@ public class ItemsMasterController {
         links.put("." + URL_PATH_NEW, "商品登録");
         modelForTh.addAttribute("links", links);
         modelForTh.addAttribute("page_title", PAGE_TITLE);
+        modelForTh.addAttribute("url_path_prefix", URL_PATH_PREFIX);
+        modelForTh.addAttribute("items", itemMasterRepository.findAll());
         return "ec/adm/items-master/index";
     }
 
