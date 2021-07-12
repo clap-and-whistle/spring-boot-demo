@@ -31,69 +31,66 @@ public class ItemsMasterControllerTest {
 
     @Test
     public void 初期表示画面へのGETリクエスト() throws Exception {
-        Assertions.assertThrows(RuntimeException.class, () -> { // まだ実装途中なのでわざとコケさす
         System.out.println("Test: 初期表示画面へのGETリクエスト");
         mockMvc.perform(get("/" + ItemsMasterController.URL_PATH_PREFIX + ItemsMasterController.URL_PATH_LIST))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ec/adm/items-master/index"));
-        });
     }
 
     @Test
     public void 商品新規登録画面へのGETリクエスト() throws Exception {
-        Assertions.assertThrows(RuntimeException.class, () -> { // まだ実装途中なのでわざとコケさす
         System.out.println("Test: 商品新規登録画面へのGETリクエスト");
         mockMvc.perform(get("/" + ItemsMasterController.URL_PATH_PREFIX + ItemsMasterController.URL_PATH_NEW))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ec/adm/items-master/new"));
-        });
     }
 
     @Test
     public void 商品詳細画面へのGETリクエスト() throws Exception {
-        Assertions.assertThrows(RuntimeException.class, () -> { // まだ実装途中なのでわざとコケさす
         System.out.println("Test: 商品詳細画面へのGETリクエスト");
         mockMvc.perform(get("/" + ItemsMasterController.URL_PATH_PREFIX + "/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ec/adm/items-master/show"));
-        });
     }
 
     @Test
     public void 商品編集画面へのGETリクエスト() throws Exception {
-        Assertions.assertThrows(RuntimeException.class, () -> { // まだ実装途中なのでわざとコケさす
         System.out.println("Test: 商品編集画面へのGETリクエスト");
         mockMvc.perform(get("/" + ItemsMasterController.URL_PATH_PREFIX + "/1/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ec/adm/items-master/edit"));
-        });
     }
 
     @Test
     public void 商品新規登録のPOSTリクエスト() throws Exception {
-        Assertions.assertThrows(RuntimeException.class, () -> { // まだ実装途中なのでわざとコケさす
         System.out.println("Test: 商品新規登録のPOSTリクエスト");
-        mockMvc.perform(post("/" + ItemsMasterController.URL_PATH_PREFIX))
+        mockMvc.perform(post("/" + ItemsMasterController.URL_PATH_PREFIX)
+                    .param("name", "test")
+                    .param("price", "3000.0")
+                    .param("vendor", "test Inc.")
+                )
                 .andExpect(status().is3xxRedirection());
-        });
     }
 
     @Test
-    public void 指定商品へのPUTリクエスト() throws Exception {
-        Assertions.assertThrows(RuntimeException.class, () -> { // まだ実装途中なのでわざとコケさす
-        System.out.println("Test: 指定商品へのPUTリクエスト");
-        mockMvc.perform(put("/" + ItemsMasterController.URL_PATH_PREFIX + "/1"))
+    public void 指定商品への更新POSTリクエスト() throws Exception {
+        System.out.println("Test: 指定商品への更新POSTリクエスト");
+        mockMvc.perform(post("/" + ItemsMasterController.URL_PATH_PREFIX + "/1")
+                    .param("name", "test")
+                    .param("price", "3000.0")
+                    .param("vendor", "test Inc.")
+                )
                 .andExpect(status().is3xxRedirection());
-        });
     }
 
     @Test
-    public void 指定商品へのDELETEリクエスト() throws Exception {
-        Assertions.assertThrows(RuntimeException.class, () -> { // まだ実装途中なのでわざとコケさす
-        System.out.println("Test: 指定商品へのDELETEリクエスト");
-        mockMvc.perform(delete("/" + ItemsMasterController.URL_PATH_PREFIX + "/1"))
+    public void 指定商品への削除POSTリクエスト() throws Exception {
+        System.out.println("Test: 指定商品への削除POSTリクエスト");
+        int targetId = 6;
+        mockMvc.perform(post("/" + ItemsMasterController.URL_PATH_PREFIX + "/" + targetId + "/delete")
+                    .param("_method", "delete")
+                )
                 .andExpect(status().is3xxRedirection());
-        });
     }
 
 }
