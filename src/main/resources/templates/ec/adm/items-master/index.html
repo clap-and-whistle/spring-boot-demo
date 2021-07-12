@@ -40,21 +40,30 @@
 
   <div class="container">
     <h1>商品一覧</h1>
-    <table border="1">
-      <thead>
+    <table class="table">
+      <thead class="thead-dark">
       <tr>
         <th th:text="#{msg.id}" />
         <th th:text="#{msg.name}" />
         <th th:text="#{msg.price}" />
         <th th:text="#{msg.vendor}" />
+        <th >操作</th>
       </tr>
       <tr th:each="item, iStat : ${itemsPage.content}"
           th:style="${iStat.odd}? 'font-weight: bold;'"
           th:alt-title="${iStat.even}? 'even' : 'odd'">
         <td th:text="${item.id}" />
-        <td><a th:text="${item.name}" th:href="|./${item.id}|" /></td>
+        <td><a th:text="${item.name}" th:href="@{|./${item.id}|}" /></td>
         <td><a th:text="${item.price}" /></td>
         <td><a th:text="${item.vendor}" /></td>
+        <td>
+          <div class="row">
+            <a th:href="@{|./${item.id}/edit|}" th:text="編集" class="btn btn-outline-secondary m-1"></a>
+            <form th:method="delete" th:action="@{|./${item.id}/delete|}" />
+              <button type="submit" class="btn btn-outline-secondary m-1" th:text="削除"/>
+            </form>
+          </div>
+        </td>
       </tr>
       </thead>
       <tbody>
