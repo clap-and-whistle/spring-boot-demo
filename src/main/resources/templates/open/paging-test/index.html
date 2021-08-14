@@ -1,19 +1,66 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html
+  lang="ja"
+  xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
   <title>Paging Test</title>
+
+  <style>
+    .pagination {
+      display: inline-block;
+    }
+
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 5px 5px;
+      text-decoration: none;
+    }
+
+    .pagination a.active {
+      background-color: gray;
+      color: white;
+      border-radius: 2px;
+    }
+  </style>
+
 </head>
 <body>
   <div>
     <h1>PagingTestController:index</h1>
+    [<a th:href="@{../..}">サイトTOPへ</a>]
     <hr />
 
     <div>
-      <h2>見出し２</h2>
-      <ul>
-        <li><a th:href="@{/}">サイトTOPへ</a></li>
-      </ul>
+      <h2>ページングのテスト</h2>
+      <div class="px-5 py-2">
+
+        <div class="container">
+          <div class="row border">
+            <div class="col-1 col-sm-1 col-md-1 col-lg-1" th:text="#{msg.id}"></div>
+            <div class="col-5 col-sm-5 col-md-5 col-lg-5" th:text="#{msg.name}"></div>
+
+          </div>
+
+          <div class="row border" th:each="book, iStat : ${bookPage.content}"
+               th:style="${iStat.odd}? 'font-weight: bold;'"
+               th:alt-title="${iStat.even}? 'even' : 'odd'">
+            <div class="col-1 col-sm-1 col-md-1 col-lg-1" th:text="${book.id}" ></div>
+            <div class="col-5 col-sm-5 col-md-5 col-lg-5" th:text="${book.name}" ></div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div th:if="${bookPage.totalPages > 0}" class="pagination"
+               th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{.(size=${bookPage.size}, page=${pageNumber})}"
+               th:text=${pageNumber}
+               th:class="${pageNumber==bookPage.number + 1} ? active"></a>
+          </div>
+        </div>
+      </div>
       <hr />
 
       <h2>for Debug</h2>
@@ -24,7 +71,9 @@
 
     </div>
 
-
   </div>
+
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+
 </body>
 </html>
