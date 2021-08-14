@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +20,14 @@ public final class BookForSaleService {
         int idx;
         for (int i = 0; i < 20; i++) {
             idx = i + 1;
-            books.add(new BookForSale(idx, "○○○○ △△△△△△△ □□□□□ に詳しい本-" + String.format("%06d", idx)));
+            books.add(
+                new BookForSale(
+                    idx,
+                    "○○○○ △△△△△△△ □□□□□ に詳しい本-" + String.format("%06d", idx),
+                    "著者 AAAAAA BBBBB-" + idx,
+                    BigDecimal.valueOf(1000)
+                )
+            );
         }
     }
 
