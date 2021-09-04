@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.SysAdminOperation.Login.LoginUseCase;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.SysAdminOperation.Login.Result;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.NotExistException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.PasswordIsNotMatchException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordIsNotMatchException;
 import unit.infrastructure.uam.AggregateRepository.AdminUser.ForTestAdminUserAggregateRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;

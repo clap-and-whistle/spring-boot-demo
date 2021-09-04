@@ -1,8 +1,8 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.SysAdminOperation.Login;
 
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUserAggregateRepositoryInterface;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.NotExistException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.PasswordIsNotMatchException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordIsNotMatchException;
 
 public final class LoginUseCase {
     private AdminUserAggregateRepositoryInterface adminUserRepos;
