@@ -3,6 +3,8 @@ package page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.A
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.AdminUser;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.PasswordIsNotMatchException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUserAggregateRepositoryInterface;
 import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.Library.UserAccount.PasswordOperation;
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.AdminAccountBaseRepository;
@@ -19,7 +21,7 @@ public final class AdminUserAggregateRepository implements AdminUserAggregateRep
     }
 
     @Override
-    public long getAdminIdAllowedToLogIn(String email, String password) {
+    public long getAdminIdAllowedToLogIn(String email, String password) throws NotExistException, PasswordIsNotMatchException {
         // TODO: implementation
         return 0;
     }

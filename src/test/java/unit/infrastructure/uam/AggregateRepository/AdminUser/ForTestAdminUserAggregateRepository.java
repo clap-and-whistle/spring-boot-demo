@@ -1,6 +1,8 @@
 package unit.infrastructure.uam.AggregateRepository.AdminUser;
 
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.AdminUser;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.PasswordIsNotMatchException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUserAggregateRepositoryInterface;
 
 import java.util.Map;
@@ -32,12 +34,27 @@ public class ForTestAdminUserAggregateRepository implements AdminUserAggregateRe
     }
 
     @Override
-    public long getAdminIdAllowedToLogIn(String email, String password) {
-        return 0;
+    public long getAdminIdAllowedToLogIn(String email, String password) throws NotExistException, PasswordIsNotMatchException {
+        AdminUser adminUser;
+        for (Map.Entry<Long, AdminUser> entry : this.adminAccountMaster.entrySet()) {
+            adminUser = entry.getValue();
+            if (adminUser.email().equals(email)) {
+                if (this.isPasswordMatch(password, adminUser.password())) {
+                    return adminUser.id();
+                } else {
+                    throw new PasswordIsNotMatchException();
+                }
+            }
+        }
+        throw new NotExistException();
     }
 
     @Override
     public AdminUser findById(long id) {
-        return null;
+        return this.adminAccountMaster.get(id);
+    }
+
+    private boolean isPasswordMatch(String password, String orginPassword) {
+        return password.equals(orginPassword);
     }
 }

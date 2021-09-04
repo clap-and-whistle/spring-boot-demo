@@ -1,6 +1,8 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.SysAdminOperation.Login;
 
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUserAggregateRepositoryInterface;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.Exception.PasswordIsNotMatchException;
 
 public final class LoginUseCase {
     private AdminUserAggregateRepositoryInterface adminUserRepos;
@@ -12,9 +14,19 @@ public final class LoginUseCase {
         this.adminUserRepos = adminUserRepos;
     }
 
-    public Result execute(String email, String passwrod) {
-        // TODO: implementation
+    public Result execute(String email, String passwrod) throws Exception {
         Result result = new Result();
-        return result.setFailure(new RuntimeException(), "未実装");
+        long adminId;
+
+        try {
+            adminId = adminUserRepos.getAdminIdAllowedToLogIn(email, passwrod);
+            result.setAdminUser(adminUserRepos.findById(adminId));
+        } catch (NotExistException e) {
+            return result.setFailure(e, E_MSG_NOT_EXISTS);
+        } catch (PasswordIsNotMatchException e) {
+            return result.setFailure(e, E_MSG_PASSWORD_IS_NOT_MATCH);
+        }
+
+        return result;
     }
 }
