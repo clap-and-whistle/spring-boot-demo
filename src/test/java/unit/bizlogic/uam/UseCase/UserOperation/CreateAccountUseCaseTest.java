@@ -15,7 +15,7 @@ import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Create
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Result;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Exception.ApplyingException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Exception.EmailAlreadyUsedException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
+import unit.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
 
 final public class CreateAccountUseCaseTest {
     @BeforeEach

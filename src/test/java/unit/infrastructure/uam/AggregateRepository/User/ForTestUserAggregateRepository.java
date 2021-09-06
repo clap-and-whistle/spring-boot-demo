@@ -1,4 +1,4 @@
-package page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User;
+package unit.infrastructure.uam.AggregateRepository.User;
 
 import java.security.SecureRandom;
 import java.util.Map;
