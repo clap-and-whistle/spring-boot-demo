@@ -13,6 +13,10 @@
 
     <div>
       <h2>公開されたURL</h2>
+      <h3>システム管理</h3>
+      <ul>
+        <li><a th:href="@{${adminLoginPath}}">管理者Login</a></li>
+      </ul>
       <h3>ユーザアカウント管理</h3>
       <ul>
         <li><a th:href="@{/user-account/new}">Sing Up</a></li>
@@ -24,6 +28,10 @@
 
     <div>
       <h2>認証保護されたURL</h2>
+      <h3>システム管理</h3>
+      <ul>
+        <li><a th:href="@{/admin/sys-console/index}">管理コンソール</a></li>
+      </ul>
       <h3>ユーザアカウント管理</h3>
       <ul>
         <li><a th:href="@{/desk/index}">Myデスク</a></li>
