@@ -36,8 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             Result result = useCase.execute(new Arguments(email, password));
             if (result.isSuccess()) {
                 Collection<GrantedAuthority> authorities = new ArrayList<>();
-                // TODO: 暫定的に ROLE_ADMIN を与えているが、システム管理アカウント機能を実装する際には直す
-                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 return new UsernamePasswordAuthenticationToken(email, password, authorities);
             } else {
                 throw new BadCredentialsException(result.eMessage());

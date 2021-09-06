@@ -14,7 +14,7 @@ import page.clapandwhistle.demo.spring.controller.open.HomeController;
 import page.clapandwhistle.demo.spring.controller.uam.UserOperation.CreateAccountController;
 import page.clapandwhistle.demo.spring.controller.uam.UserOperation.LoginController;
 import page.clapandwhistle.demo.spring.framework.security.CustomAuthenticationProvider;
-import page.clapandwhistle.demo.spring.framework.security.SpringAuthenticationFailureHandler;
+import page.clapandwhistle.demo.spring.framework.security.CustomAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -63,7 +63,7 @@ public class WebAuthSecurityConfiguration extends WebSecurityConfigurerAdapter {
             /* ログイン情報の入力を行うURL */
             .loginPage("/" + LoginController.URL_PATH_PREFIX + LoginController.URL_PATH_LOGIN_FORM)
             /* 認証失敗時のハンドラをセット */
-            .failureHandler(new SpringAuthenticationFailureHandler())
+            .failureHandler(new CustomAuthenticationFailureHandler())
             /* 認証成功時のデフォルトのジャンプ先 */
             .defaultSuccessUrl("/" + MyWorkController.URL_PATH_PREFIX + MyWorkController.URL_PATH_INDEX)
             /* 認証に使用する入力値セット */
