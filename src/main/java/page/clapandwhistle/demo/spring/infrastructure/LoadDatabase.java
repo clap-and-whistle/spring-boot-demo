@@ -8,9 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import page.clapandwhistle.demo.spring.config.ExternalSettings;
-import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountBase;
-import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountBaseRepository;
-import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountProfile;
+import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.*;
 
 @Configuration
 public class LoadDatabase {
@@ -21,7 +19,10 @@ public class LoadDatabase {
     private ExternalSettings extSettings;
 
     @Bean
-    CommandLineRunner initDatabase(UserAccountBaseRepository userAccountBaseRepos) {
+    CommandLineRunner initDatabase(
+            UserAccountBaseRepository userAccountBaseRepos,
+            AdminAccountBaseRepository adminAccountBaseRepos
+    ) {
         String profile = this.extSettings.getMvnProfile();
         return args -> {
             log.info("CommandLineRunner::initDatabase: " + profile);
@@ -32,7 +33,13 @@ public class LoadDatabase {
                         "$2a$10$rKNNt5Np1tRUx3vArlZwJ.jTgNspEfD/hLyZjLPeMAX5N0nhbvb7G" // "hoge01TEST"
                 );
                 userAccountBase.setUserAccountProfile(new UserAccountProfile("hoge01", "20000410"));
-                log.info("  Preloading " + userAccountBaseRepos.save(userAccountBase));
+                log.info("  Preloading UserAccount" + userAccountBaseRepos.save(userAccountBase));
+                AdminAccountBase adminAccountBase = new AdminAccountBase(
+                        "adm01@example.local",
+                        "$2a$10$rKNNt5Np1tRUx3vArlZwJ.jTgNspEfD/hLyZjLPeMAX5N0nhbvb7G", // "hoge01TEST"
+                        1
+                );
+                log.info("  Preloading AdminUserAccount" + adminAccountBaseRepos.save(adminAccountBase));
             } else {
                 log.info("  No Preloading: ");
             }

@@ -2,11 +2,11 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>My Work</title>
+  <title>システム管理コンソール</title>
 </head>
 <body>
   <div>
-    <h1>MyWorkController:index</h1>
+    <h1>SystemConsoleController:index</h1>
     <hr />
 
     <div>
@@ -17,6 +17,10 @@
             <button type="submit">ログアウト</button>
           </form>
         </li>
+      </ul>
+      <h2>for Debug</h2>
+      <ul>
+        <li><a th:href="@{/h2-console}">H2 Database</a></li>
       </ul>
 
     </div>

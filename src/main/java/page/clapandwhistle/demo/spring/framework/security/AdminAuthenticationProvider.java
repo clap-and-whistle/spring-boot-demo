@@ -10,33 +10,34 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Arguments;
-import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.LoginUseCase;
-import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Result;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUserAggregateRepositoryInterface;
+import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.SysAdminOperation.Login.LoginUseCase;
+import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.SysAdminOperation.Login.Result;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class AdminAuthenticationProvider implements AuthenticationProvider {
     final private LoginUseCase useCase;
 
     @Autowired
-    public CustomAuthenticationProvider(LoginUseCase useCase) {
-        this.useCase = useCase;
+    public AdminAuthenticationProvider(AdminUserAggregateRepositoryInterface aggregateRepos) {
+        this.useCase = new LoginUseCase(aggregateRepos);
     }
 
     @Transactional
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        System.out.println("AdminAuthenticationProvider: Authentication");
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
         try {
-            Result result = useCase.execute(new Arguments(email, password));
+            Result result = useCase.execute(email, password);
             if (result.isSuccess()) {
                 Collection<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
                 return new UsernamePasswordAuthenticationToken(email, password, authorities);
             } else {
                 throw new BadCredentialsException(result.eMessage());
@@ -48,7 +49,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        System.out.println("CustomAuthenticationProvider::supports");
+        System.out.println("AdminAuthenticationProvider::supports");
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

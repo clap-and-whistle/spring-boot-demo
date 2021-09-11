@@ -1,20 +1,11 @@
 package page.clapandwhistle.demo.spring.infrastructure.uam.TableModel;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "user_account_base")
-public class UserAccountBase {
-
+@Table(name = "admin_account_base")
+public class AdminAccountBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,14 +22,12 @@ public class UserAccountBase {
     @Column(name = "account_status", nullable = false)
     private int account_status;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private UserAccountProfile userAccountProfile;
+    public AdminAccountBase() {}
 
-    public UserAccountBase() {}
-
-    public UserAccountBase(String email, String password) {
+    public AdminAccountBase(String email, String password, int account_status) {
         this.email = email;
         this.password = password;
+        this.account_status = account_status;
     }
 
     public Long getId() {
@@ -69,13 +58,5 @@ public class UserAccountBase {
         this.account_status = account_status;
     }
 
-    public UserAccountProfile getUserAccountProfile() {
-        return userAccountProfile;
-    }
-
-    public void setUserAccountProfile(UserAccountProfile userAccountProfile) {
-        this.userAccountProfile = userAccountProfile;
-    }
-
-    public String getRole() { return "ROLE_USER"; }
+    public String getRole() { return "ROLE_ADMIN"; }
 }
