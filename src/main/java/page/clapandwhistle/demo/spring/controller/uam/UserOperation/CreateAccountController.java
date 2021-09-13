@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.UserAggregateRepositoryInterface;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Arguments;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.CreateAccountUseCase;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Result;
@@ -24,9 +25,9 @@ public class CreateAccountController {
     final private CreateAccountUseCase useCase;
 
     @Autowired
-    public CreateAccountController(CreateAccountUseCase useCase) {
+    public CreateAccountController(UserAggregateRepositoryInterface userRepos) {
         super();
-        this.useCase = useCase;
+        this.useCase = new CreateAccountUseCase(userRepos);
     }
 
     @RequestMapping(URL_PATH_PREFIX + URL_PATH_CREATE)

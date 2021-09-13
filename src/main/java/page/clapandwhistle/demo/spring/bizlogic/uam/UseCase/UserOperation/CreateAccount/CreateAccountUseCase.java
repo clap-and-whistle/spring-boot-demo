@@ -1,7 +1,5 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount;
 
-import org.springframework.stereotype.Component;
-
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.UserAggregateRepositoryInterface;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.User;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.BirthDateStrInvalidException;
@@ -11,7 +9,6 @@ import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.Password
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Exception.ApplyingException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Exception.EmailAlreadyUsedException;
 
-@Component
 final public class CreateAccountUseCase {
     final private UserAggregateRepositoryInterface userRepos;
 
