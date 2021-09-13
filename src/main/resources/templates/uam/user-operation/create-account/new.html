@@ -39,7 +39,7 @@
         <h5 class="card-title">ユーザアカウント管理機能</h5>
       </div>
       <div class="card-body">
-        <form th:method="post" th:action="@{/user-account}" th:object="${UserAccountBase}">
+        <form th:method="post" th:action="@{${formAction}}" th:object="${UserAccountBase}">
 
           <section class="text-gray-600 body-font relative">
             <h1 class="text-4xl text-green-700 text-center font-semibold">アカウント作成の申請をする</h1>

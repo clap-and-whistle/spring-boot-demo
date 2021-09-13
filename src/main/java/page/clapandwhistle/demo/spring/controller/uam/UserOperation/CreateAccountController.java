@@ -20,7 +20,6 @@ import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccount
 public class CreateAccountController {
     public static final String URL_PATH_PREFIX = "user-account";
     public static final String URL_PATH_CREATE = "/new";
-    private final String TEMPLATE_PATH_PREFIX = "uam/user-operation/create-account/";
 
     final private CreateAccountUseCase useCase;
 
@@ -33,24 +32,25 @@ public class CreateAccountController {
     @RequestMapping(URL_PATH_PREFIX + URL_PATH_CREATE)
     public String newAction(Model model) {
         System.out.println("user-account::new: ");
+        model.addAttribute("formAction", "/" + URL_PATH_PREFIX);
         model.addAttribute("UserAccountBase", new UserAccountBase("", ""));
-        return TEMPLATE_PATH_PREFIX + "new";
+        return "uam/user-operation/create-account/new";
     }
 
     @PostMapping(URL_PATH_PREFIX)
-    public String create(@ModelAttribute("UserAccountBase") @Validated UserAccountBase userAccount, BindingResult result, Model model) {
+    public String create(@ModelAttribute("UserAccountBase") @Validated UserAccountBase userAccount, BindingResult result) {
         System.out.println("user-account::create: email: " + userAccount.getEmail());
         System.out.println("user-account::create: password: " + userAccount.getPassword());
         if (result.hasErrors()) {
-            System.out.println("user-account::create: BindingResult: " + result.toString());
-            return TEMPLATE_PATH_PREFIX + "new";
+            System.out.println("user-account::create: BindingResult: " + result);
+            return "redirect:/" + URL_PATH_PREFIX + URL_PATH_CREATE;
         } else {
             String ret = "redirect:/";
             try {
                 Result useCaseResult = this.useCase.execute(new Arguments(userAccount.getEmail(), userAccount.getPassword()));
                 if (!useCaseResult.isSuccess()) {
                     System.out.println("user-account::create: " + useCaseResult.eMessage());
-                    ret = TEMPLATE_PATH_PREFIX + "new";
+                    ret = "redirect:/" + URL_PATH_PREFIX + URL_PATH_CREATE;
                 }
             } catch (Exception e) {
                 System.out.println("user-account::create: " + e.getMessage());
