@@ -1,17 +1,27 @@
 package page.clapandwhistle.demo.spring.infrastructure.ec.TableModel;
 
+import page.clapandwhistle.demo.spring.bizlogic.ec.Aggregate.ItemBasicInfo;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 final public class ItemMaster {
     private @Id @GeneratedValue Long id;
 
+    @NotBlank(message="商品名を入力してください。")
     private String name;
 
+    @Min(value= ItemBasicInfo.PRICE_MIN, message=ItemBasicInfo.PRICE_MIN + "以上の数値を入力してください。")
+    @Max(value=ItemBasicInfo.PRICE_MAX, message=ItemBasicInfo.PRICE_MAX + "以下の数値を入力してください。")
     private float price;
 
+    @Size(max=50, message="ベンダー名は50文字を超えないでください。")
     private String vendor;
 
     public ItemMaster() {}
