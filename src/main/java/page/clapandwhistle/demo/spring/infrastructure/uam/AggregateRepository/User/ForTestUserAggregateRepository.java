@@ -8,8 +8,8 @@ import java.util.TreeMap;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.UserAggregateRepositoryInterface;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.AccountStatus;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.User;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.NotExistException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.PasswordIsNotMatchException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordIsNotMatchException;
 
 final public class ForTestUserAggregateRepository implements UserAggregateRepositoryInterface {
     final private Map<Long, User> masterAccountList = new TreeMap<Long, User>();

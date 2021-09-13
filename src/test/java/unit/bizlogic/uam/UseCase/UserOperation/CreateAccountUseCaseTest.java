@@ -8,8 +8,8 @@ import org.junit.jupiter.api.TestInfo;
 
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.BirthDateStrInvalidException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.FullNameSizeTooLongException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.PasswordSizeTooShortException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.PasswordTypeCompositionInvalidException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordSizeTooShortException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordTypeCompositionInvalidException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Arguments;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.CreateAccountUseCase;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Result;

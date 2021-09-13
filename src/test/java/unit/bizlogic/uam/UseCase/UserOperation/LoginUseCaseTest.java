@@ -10,9 +10,9 @@ import org.junit.jupiter.api.TestInfo;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Arguments;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.LoginUseCase;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Result;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.NotExistException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.PasswordIsNotMatchException;
+import unit.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordIsNotMatchException;
 
 final public class LoginUseCaseTest {
     @BeforeEach
