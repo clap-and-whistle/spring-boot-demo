@@ -21,24 +21,22 @@
   </nav>
 
   <div class="container">
-    <div class="card card-primary mb-3">
+    <div class="card card-primary mb-3" th:object="${item}">
       <div class="card-header">
-        <h5 class="card-title">商品詳細</h5>
+        <h5 class="card-title">商品詳細 - <a th:href="@{${url_path_edit}}">編集</a></h5>
       </div>
       <div class="card-body">
-        <div th:object="${item}">
-          <div class="form-group row">
-            <label class="col-md-2" th:text="#{msg.name}"></label>
-            <div class="col-md-10" th:text="*{name}"></div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-2" th:text="#{msg.price}"></label>
-            <div class="col-md-10" th:text="*{price}"></div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-2" th:text="#{msg.vendor}"></label>
-            <div class="col-md-10" th:text="*{vendor}"></div>
-          </div>
+        <div class="form-group row">
+          <label class="col-md-2" th:text="#{msg.name}"></label>
+          <div class="col-md-10" th:text="*{name}"></div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-2" th:text="#{msg.price}"></label>
+          <div class="col-md-10" th:text="*{price}"></div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-2" th:text="#{msg.vendor}"></label>
+          <div class="col-md-10" th:text="*{vendor}"></div>
         </div>
       </div>
     </div>
