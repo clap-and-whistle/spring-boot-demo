@@ -38,7 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             if (result.isSuccess()) {
                 Collection<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                return new UsernamePasswordAuthenticationToken(email, password, authorities);
+                return new DefaultAuthenticationToken(email, password, authorities, result.userId());
             } else {
                 throw new BadCredentialsException(result.eMessage());
             }
