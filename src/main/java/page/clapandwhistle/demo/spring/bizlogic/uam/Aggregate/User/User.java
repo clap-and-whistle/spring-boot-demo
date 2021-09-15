@@ -13,12 +13,13 @@ final public class User {
     final public static int PASSWORD_MIN_LENGTH = 8;
     final public static int FULLNAME_BYTE_MAX_LENGTH = 255;
 
-    private long id;
-    private String email;
-    private String password;
-    private AccountStatus accountStatus;
-    private String fullName;
-    private String birthDateStr;
+    final public static String ROLE = "ROLE_USER";
+    final private long id;
+    final private String email;
+    final private String password;
+    final private AccountStatus accountStatus;
+    final private String fullName;
+    final private String birthDateStr;
 
     private User(long id, String email, String password, AccountStatus accountStatus, String fullName, String birthDateStr) {
         this.id = id;
@@ -87,7 +88,7 @@ final public class User {
         if (this.birthDateStr.matches("^.*[^0-9].*$"))
             return false;
 
-        Boolean ret = true;
+        boolean ret = true;
         String year, month, day;
         DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
         try {

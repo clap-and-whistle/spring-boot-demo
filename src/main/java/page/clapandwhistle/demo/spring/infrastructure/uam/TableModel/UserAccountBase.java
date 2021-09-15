@@ -1,5 +1,7 @@
 package page.clapandwhistle.demo.spring.infrastructure.uam.TableModel;
 
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.User;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -77,5 +79,5 @@ public class UserAccountBase {
         this.userAccountProfile = userAccountProfile;
     }
 
-    public String getRole() { return "ROLE_USER"; }
+    public String getRole() { return User.ROLE; }
 }
