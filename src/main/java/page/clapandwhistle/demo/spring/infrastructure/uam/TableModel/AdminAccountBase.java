@@ -1,5 +1,7 @@
 package page.clapandwhistle.demo.spring.infrastructure.uam.TableModel;
 
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.AdminUser;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -58,5 +60,5 @@ public class AdminAccountBase {
         this.account_status = account_status;
     }
 
-    public String getRole() { return "ROLE_ADMIN"; }
+    public String getRole() { return AdminUser.ROLE; }
 }
