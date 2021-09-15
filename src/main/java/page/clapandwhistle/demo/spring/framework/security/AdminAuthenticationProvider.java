@@ -38,7 +38,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
             if (result.isSuccess()) {
                 Collection<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-                return new UsernamePasswordAuthenticationToken(email, password, authorities);
+                return new DefaultAuthenticationToken(email, password, authorities, result.adminId());
             } else {
                 throw new BadCredentialsException(result.eMessage());
             }
