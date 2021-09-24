@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import org.springframework.transaction.annotation.Transactional;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.RegistrationProcessFailedException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.UserAggregateRepositoryInterface;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.AccountStatus;
@@ -19,7 +20,7 @@ import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccount
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountProfile;
 
 @Component
-final public class UserAggregateRepository implements UserAggregateRepositoryInterface {
+public class UserAggregateRepository implements UserAggregateRepositoryInterface {
     final private UserAccountBaseRepository tableRepoUserAccountBase;
     final private PasswordOperation passwordOperator;
 
@@ -63,6 +64,7 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
     }
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public long save(User user) throws RegistrationProcessFailedException {
         // TODO: まだ「アカウント作成」のケースだけのためのロジックなので、「user.id() が空かそうでないか」で分岐必要
         UserAccountBase entityUserAccountBase = new UserAccountBase();
@@ -84,7 +86,11 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         }
         // 「アカウント作成」のケースでも、上記の save(entityUserAccountBase) が成功していれば
         //  自動生成された id が entityUserAccountBaseインスタンスへ反映されていることを確認済み
-        return entityUserAccountBase.getId();
+        long id = entityUserAccountBase.getId();
+
+        // 登録されたレコード内容によってUser集約を構築できることを確認するために、ここでfindById()まで実行しておく
+        User createdUser = this.findById(id);
+        return createdUser.id();
     }
 
     @Override
