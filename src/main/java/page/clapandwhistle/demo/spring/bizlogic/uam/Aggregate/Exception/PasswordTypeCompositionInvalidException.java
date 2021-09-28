@@ -1,4 +1,4 @@
-package page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception;
+package page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception;
 
 final public class PasswordTypeCompositionInvalidException extends RuntimeException {
 

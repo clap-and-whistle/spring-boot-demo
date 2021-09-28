@@ -5,15 +5,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.RegistrationProcessFailedException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.UserAggregateRepositoryInterface;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.AccountStatus;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.User;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.Exception.RegistrationProcessFailedException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.NotExistException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.PasswordIsNotMatchException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordIsNotMatchException;
+import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.Library.UserAccount.PasswordOperation;
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountBase;
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountBaseRepository;
 import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccountProfile;
@@ -21,21 +21,24 @@ import page.clapandwhistle.demo.spring.infrastructure.uam.TableModel.UserAccount
 @Component
 final public class UserAggregateRepository implements UserAggregateRepositoryInterface {
     final private UserAccountBaseRepository tableRepoUserAccountBase;
+    final private PasswordOperation passwordOperator;
 
     @Autowired
     public UserAggregateRepository(UserAccountBaseRepository userAccountBaseRepo) {
         super();
         this.tableRepoUserAccountBase = userAccountBaseRepo;
+        this.passwordOperator = new PasswordOperation();
     }
 
     @Override
     public User findById(long id) {
         Optional<UserAccountBase> optUserAccountBase = this.tableRepoUserAccountBase.findById(id);
-        UserAccountBase userAccountBase = optUserAccountBase.get();
+        UserAccountBase userAccountBase = optUserAccountBase.orElse(null);
+        if (userAccountBase == null) {
+            return null;
+        }
         UserAccountProfile userAccountProfile = userAccountBase.getUserAccountProfile();
-        return optUserAccountBase.isEmpty()
-            ? null
-            : User.buildForFind(
+        return  User.buildForFind(
                     userAccountBase.getId()
                     , userAccountBase.getEmail()
                     , userAccountBase.getAccountStatus()
@@ -56,9 +59,7 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
     @Override
     public boolean isApplying(long userId) {
         Optional<UserAccountBase> optUserAccountBase = this.tableRepoUserAccountBase.findById(userId);
-        return optUserAccountBase.isEmpty()
-            ? false
-            : AccountStatus.APPLYING.raw() == optUserAccountBase.get().getAccountStatus();
+        return optUserAccountBase.isPresent() && AccountStatus.APPLYING.raw() == optUserAccountBase.get().getAccountStatus();
     }
 
     @Override
@@ -81,7 +82,9 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
             System.out.println(e.getMessage());
             throw new RegistrationProcessFailedException();
         }
-        return this.tableRepoUserAccountBase.findTopByOrderByIdDesc().get().getId();
+        // 「アカウント作成」のケースでも、上記の save(entityUserAccountBase) が成功していれば
+        //  自動生成された id が entityUserAccountBaseインスタンスへ反映されていることを確認済み
+        return entityUserAccountBase.getId();
     }
 
     @Override
@@ -91,15 +94,10 @@ final public class UserAggregateRepository implements UserAggregateRepositoryInt
         if (listUserAccountBase.size() > 1) throw new RuntimeException("複数ヒットしました");
 
         UserAccountBase userAccountBase = listUserAccountBase.get(0);
-        if (this.isPasswordMatch(password, userAccountBase)) {
+        if (passwordOperator.isPasswordMatch(password, userAccountBase.getPassword())) {
             return userAccountBase.getId();
         }
         throw new PasswordIsNotMatchException();
     }
 
-    private boolean isPasswordMatch(String input, UserAccountBase userAccountBase) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String savedDigest = userAccountBase.getPassword();
-        return passwordEncoder.matches(input, savedDigest);
-    }
 }

@@ -1,12 +1,9 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login;
 
-import org.springframework.stereotype.Component;
-
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.UserAggregateRepositoryInterface;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.NotExistException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.PasswordIsNotMatchException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordIsNotMatchException;
 
-@Component
 final public class LoginUseCase {
     private UserAggregateRepositoryInterface userRepos;
 

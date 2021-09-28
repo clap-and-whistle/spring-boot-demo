@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat;
 
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.BirthDateStrInvalidException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.FullNameSizeTooLongException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.PasswordSizeTooShortException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.PasswordTypeCompositionInvalidException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordSizeTooShortException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordTypeCompositionInvalidException;
 
 final public class User {
     final public static int PASSWORD_MIN_LENGTH = 8;
