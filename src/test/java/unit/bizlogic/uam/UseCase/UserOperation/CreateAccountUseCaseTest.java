@@ -8,14 +8,14 @@ import org.junit.jupiter.api.TestInfo;
 
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.BirthDateStrInvalidException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.FullNameSizeTooLongException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.PasswordSizeTooShortException;
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.Exception.PasswordTypeCompositionInvalidException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordSizeTooShortException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordTypeCompositionInvalidException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Arguments;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.CreateAccountUseCase;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Result;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Exception.ApplyingException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.CreateAccount.Exception.EmailAlreadyUsedException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
+import unit.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
 
 final public class CreateAccountUseCaseTest {
     @BeforeEach

@@ -1,7 +1,7 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate;
 
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.RegistrationProcessFailedException;
 import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.User;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.Exception.RegistrationProcessFailedException;
 
 public interface UserAggregateRepositoryInterface {
     public long getUserIdByEmail(String email);

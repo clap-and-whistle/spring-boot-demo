@@ -1,5 +1,6 @@
 package unit.bizlogic.uam.UseCase.UserOperation;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,9 +11,9 @@ import org.junit.jupiter.api.TestInfo;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Arguments;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.LoginUseCase;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Result;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.NotExistException;
-import page.clapandwhistle.demo.spring.infrastructure.uam.AggregateRepository.User.Exception.PasswordIsNotMatchException;
+import unit.infrastructure.uam.AggregateRepository.User.ForTestUserAggregateRepository;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.NotExistException;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.Exception.PasswordIsNotMatchException;
 
 final public class LoginUseCaseTest {
     @BeforeEach
@@ -29,6 +30,7 @@ final public class LoginUseCaseTest {
         LoginUseCase useCase = new LoginUseCase(ForTestUserAggregateRepository.getInstance());
         Result result = useCase.execute(args);
         assertTrue(result.isSuccess());
+        assertThat(result.userId()).isGreaterThan(0);
     }
 
     @Test

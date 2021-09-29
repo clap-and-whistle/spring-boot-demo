@@ -1,6 +1,7 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser;
 
 public final class AdminUser {
+    final public static String ROLE = "ROLE_ADMIN";
     final private long id;
     final private String email;
     final private String password;
@@ -27,6 +28,10 @@ public final class AdminUser {
         int accountStatus
     ) {
         return new AdminUser(id, email, "", AccountStatus.getByRaw(accountStatus));
+    }
+
+    public String role() {
+        return ROLE;
     }
 
     public long id() {

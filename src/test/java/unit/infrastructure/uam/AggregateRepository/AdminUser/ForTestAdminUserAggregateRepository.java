@@ -20,12 +20,13 @@ public class ForTestAdminUserAggregateRepository implements AdminUserAggregateRe
     final public static String テスト用Password = "hogeFuga123";
     final public static String テスト用の誤ったPassword = "hogePiyo123";
 
+    final public static long テスト用の有効な管理者ID = 1;
     final public static String テスト用の有効な管理者メールアドレス = "adm01@example.local";
     final public static String システムログイン時例外用_使用されていないメールアドレス = "not-used@example.local";
 
     /** シングルトン */
     private ForTestAdminUserAggregateRepository() {
-        AdminUser adminUser = AdminUser.buildForTestData(1, テスト用の有効な管理者メールアドレス, テスト用Password, 1);
+        AdminUser adminUser = AdminUser.buildForTestData(テスト用の有効な管理者ID, テスト用の有効な管理者メールアドレス, テスト用Password, 1);
         this.adminAccountMaster.put(adminUser.id(), adminUser);
     }
 

@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.UserAggregateRepositoryInterface;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Arguments;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.LoginUseCase;
 import page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login.Result;
@@ -22,8 +23,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     final private LoginUseCase useCase;
 
     @Autowired
-    public CustomAuthenticationProvider(LoginUseCase useCase) {
-        this.useCase = useCase;
+    public CustomAuthenticationProvider(UserAggregateRepositoryInterface userRepos) {
+        this.useCase = new LoginUseCase(userRepos);
     }
 
     @Transactional
@@ -37,7 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             if (result.isSuccess()) {
                 Collection<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                return new UsernamePasswordAuthenticationToken(email, password, authorities);
+                return new DefaultAuthenticationToken(email, password, authorities, result.userId());
             } else {
                 throw new BadCredentialsException(result.eMessage());
             }
