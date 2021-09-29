@@ -1,13 +1,11 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.SysAdminOperation.Login;
 
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.AdminUser.AdminUser;
-
 public final class Result {
 
     private boolean success;
     private RuntimeException exception = null;
     private String eMessage = null;
-    private AdminUser adminUserAggregate = null;
+    private Long adminId = null;
 
     public Result() {
         this.success = true;
@@ -20,9 +18,8 @@ public final class Result {
         return this;
     }
 
-    public Result setAdminUser(AdminUser adminUser) {
-        this.adminUserAggregate = adminUser;
-        return this;
+    public void setAdminId(long adminId) {
+        this.adminId = adminId;
     }
 
     public boolean isSuccess() {
@@ -39,7 +36,7 @@ public final class Result {
                 : this.eMessage;
     }
 
-    public AdminUser adminUserAggregate() {
-        return this.adminUserAggregate;
+    public Long adminId() {
+        return this.adminId;
     }
 }

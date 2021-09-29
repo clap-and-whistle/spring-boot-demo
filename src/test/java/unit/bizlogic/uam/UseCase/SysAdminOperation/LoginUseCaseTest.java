@@ -29,7 +29,7 @@ final public class LoginUseCaseTest {
                 ForTestAdminUserAggregateRepository.テスト用Password
         );
         assertTrue(result.isSuccess());
-        assertThat(result.adminUserAggregate().id()).isGreaterThan(0);
+        assertThat(result.adminId()).isGreaterThan(0);
     }
 
     @Test

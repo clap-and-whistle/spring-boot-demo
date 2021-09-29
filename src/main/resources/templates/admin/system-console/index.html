@@ -20,7 +20,8 @@
       </ul>
       <h2>for Debug</h2>
       <ul>
-        <li><a th:href="@{/h2-console}">H2 Database</a></li>
+        <li><div>ログインユーザ: <span th:text="${loginUserEmail}"></span></div></li>
+        <li th:if="${h2ConsoleAvailable}">ツール: <a th:href="@{/h2-console}">H2 Database</a></li>
       </ul>
 
     </div>

@@ -1,12 +1,10 @@
 package page.clapandwhistle.demo.spring.bizlogic.uam.UseCase.UserOperation.Login;
 
-import page.clapandwhistle.demo.spring.bizlogic.uam.Aggregate.User.User;
-
 final public class Result {
     private boolean success;
     private RuntimeException exception = null;
     private String eMessage = null;
-    private User userAggregate = null;
+    private Long userId = null;
 
     public Result() {
         this.success = true;
@@ -19,9 +17,8 @@ final public class Result {
         return this;
     }
 
-    public Result setUser(User userAggregate) {
-        this.userAggregate = userAggregate;
-        return this;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public boolean isSuccess() {
@@ -38,7 +35,7 @@ final public class Result {
                 : this.eMessage;
     }
 
-    public User userAggregate() {
-        return this.userAggregate;
+    public Long userId() {
+        return this.userId;
     }
 }
