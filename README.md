@@ -26,8 +26,8 @@
     - [Benefit-2: 移植性がかなり高まる](#benefit-2-%E7%A7%BB%E6%A4%8D%E6%80%A7%E3%81%8C%E3%81%8B%E3%81%AA%E3%82%8A%E9%AB%98%E3%81%BE%E3%82%8B)
 - [実装に関する補足情報](#%E5%AE%9F%E8%A3%85%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E8%A3%9C%E8%B6%B3%E6%83%85%E5%A0%B1)
   - [Supplement-1: LoadDatabaseクラスについて](#supplement-1-loaddatabase%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
-  - [Supplement-2: 現状のユースケース記述に対して未実装の事項](#supplement-2-%E7%8F%BE%E7%8A%B6%E3%81%AE%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%B1%E3%83%BC%E3%82%B9%E8%A8%98%E8%BF%B0%E3%81%AB%E5%AF%BE%E3%81%97%E3%81%A6%E6%9C%AA%E5%AE%9F%E8%A3%85%E3%81%AE%E4%BA%8B%E9%A0%85)
-  - [Supplement-3: のちに、上記ユースケースに追加しようとしている事項](#supplement-3-%E3%81%AE%E3%81%A1%E3%81%AB%E4%B8%8A%E8%A8%98%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%B1%E3%83%BC%E3%82%B9%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%97%E3%82%88%E3%81%86%E3%81%A8%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E4%BA%8B%E9%A0%85)
+  - [Supplement-2: 動作確認可能となっているユースケースにおける未実装事項](#supplement-2-%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D%E5%8F%AF%E8%83%BD%E3%81%A8%E3%81%AA%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%B1%E3%83%BC%E3%82%B9%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%9C%AA%E5%AE%9F%E8%A3%85%E4%BA%8B%E9%A0%85)
+  - [Supplement-3: 動作確認可能なユースケースへ後で追加する予定の事項](#supplement-3-%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D%E5%8F%AF%E8%83%BD%E3%81%AA%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%B1%E3%83%BC%E3%82%B9%E3%81%B8%E5%BE%8C%E3%81%A7%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B%E4%BA%88%E5%AE%9A%E3%81%AE%E4%BA%8B%E9%A0%85)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
