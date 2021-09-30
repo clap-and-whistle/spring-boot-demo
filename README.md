@@ -3,6 +3,12 @@
 これは、Spring Boot フレームワークをつかったWebアプリケーションの Demo Projectです。  
 書籍「ユースケース駆動開発実践ガイド」に記載の手法を模倣してクラス設計をし、Spring Boot フレームワークの提供するMVC環境上で動作するコードを示します。
 
+なお、当Projectは次のような **「Webエンジニア人材を教育する場面において有用な教材として活用できること」** という目的も併せ持って作成されています。
+- Webエンジニア職への就業を希望するWeb開発未経験者が言語の習得を終えて開発演習に取り組むような場合に、指導者側ですぐに利用できる教材となること。
+- Webエンジニア職の初級者を抜けて開発物のスパゲティコード化が気になり始めているエンジニアの中でも *「オブジェクト指向分析を伴って設計すること」にスパゲティ化回避の活路を見出した* ような方へ、オブジェクト指向分析を伴ったアプリケーション設計の実践例を示すこと。
+- 書籍「ユースケース駆動開発実践ガイド（ダグ・ローゼンバーグ、マット・ステファン共著）」を読んでみたけどICONIXの何が良いのかイマイチピンとこなかったような人へ、メリットを紹介できるような資料となること。
+- Webや書籍等で様々提供されている「ドメインモデリングに基づいた参考実装」や「読者をDDD(ドメイン駆動設計)へ導くべく書かれた参考記事」をエンジニア教育の実践に用いる場合に、「MVCフレームワークによるWebアプリケーション」においてすぐに使えるテンプレートとなること。
+
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -29,24 +35,35 @@
 
 # 設計資料の概要
 
-1. [docs/UserAccountManagement/Required.md](/docs/UserAccountManagement/Required.md) で、対象システムにおける一般ユーザアカウント管理機能に要求されている振る舞いをリストしています。(いわゆる「要求定義」を、ICONIXプロセスに反映させるためのリストとして分解したもの)
+```
+※注記
+2021年9月30日時点では、以下に示す設計資料で定義されたユースケースのうち一部のみが実装されています。
+未実装のユースケースについては、折を見て実装を行います。
+```
+
+1. [docs/UserAccountManagement/Required.md](/docs/UserAccountManagement/Required.md) で、(仮想の)対象システムにおける一般ユーザアカウント管理機能に要求されている振る舞いをリストしています。(いわゆる「要求定義」を、ICONIXプロセスに反映させるためのリストとして分解したもの)
 2. [docs/UserAccountManagement/01_メイン資料/一般ユーザアカウント管理機能_概念モデル図.png](docs/UserAccountManagement/01_メイン資料/一般ユーザアカウント管理機能_概念モデル図.png) で、対象の問題領域(ドメイン)をモデリングしています。
 3. [docs/UserAccountManagement/02_補助資料/補助資料.1_一般ユーザアカウントのライフサイクル.png](docs/UserAccountManagement/02_補助資料/補助資料.1_一般ユーザアカウントのライフサイクル.png) で、このアカウント管理機能が組み込まれるシステム内での「一般ユーザ」のライフサイクルを示しています。
-4. [docs/UserAccountManagement/01_メイン資料/システム管理操作/システム管理操作UseCase図.png](docs/UserAccountManagement/01_メイン資料/システム管理操作/システム管理操作UseCase図.png) で、このアカウント管理機能におけるシステム管理者向けのユースケースを図示しています。(同ディレクトリ内にそれらのユースケース記述やGUIモックも併置していますが、これらの設計は現時点で未着手です。)
+4. [docs/UserAccountManagement/01_メイン資料/システム管理操作/システム管理操作UseCase図.png](docs/UserAccountManagement/01_メイン資料/システム管理操作/システム管理操作UseCase図.png) で、このアカウント管理機能におけるシステム管理者向けのユースケースを図示しています。
 5. [docs/UserAccountManagement/01_メイン資料/一般ユーザ操作/一般ユーザ操作UseCase図.png](docs/UserAccountManagement/01_メイン資料/一般ユーザ操作/一般ユーザ操作UseCase図.png) で、このアカウント管理機能における一般ユーザ向けのユースケースを図示しています。
 6. [docs/UserAccountManagement/01_メイン資料/一般ユーザ操作/アカウント作成の申請をする/](docs/UserAccountManagement/01_メイン資料/一般ユーザ操作/アカウント作成の申請をする/) ディレクトリには、ユースケース「アカウント作成の申請をする」に関する次の設計資料が収められています。
     1. ユースケース記述
     2. ロバストネス図
-    3. GUIモック
-    4. シーケンス図
-    5. クラス図
+    3. シーケンス図
+    4. クラス図
+    5. GUIモック
 7. [docs/UserAccountManagement/01_メイン資料/一般ユーザ操作/システムへログインする/](docs/UserAccountManagement/01_メイン資料/一般ユーザ操作/システムへログインする/) ディレクトリには、ユースケース「システムへログインする」に関する次の設計資料が収められています。
     1. ユースケース記述
     2. ロバストネス図
-    3. GUIモック
-    4. シーケンス図
-    5. クラス図
-8. [docs/UserAccountManagement/03_pkg構成/PkgStructure.png](docs/UserAccountManagement/03_pkg構成/PkgStructure.png) で、各種ユースケースのクラス図で示された各種クラスがどのようなパッケージ構成(=ディレクトリ構成)で配置されるのかを図示しています。
+    3. シーケンス図
+    4. クラス図
+    5. GUIモック
+8. [docs/UserAccountManagement/01_メイン資料/システム管理操作/システム管理コンソールへログインする/](docs/UserAccountManagement/01_メイン資料/システム管理操作/システム管理コンソールへログインする/) ディレクトリには、ユースケース「システム管理コンソールへログインする」に関する次の設計資料が収められています。
+    1. ユースケース記述
+    2. ロバストネス図
+    3. シーケンス図
+    4. クラス図
+9. [docs/UserAccountManagement/03_pkg構成/PkgStructure.png](docs/UserAccountManagement/03_pkg構成/PkgStructure.png) で、各種ユースケースのクラス図で示された各種クラスがどのようなパッケージ構成(=ディレクトリ構成)で配置されるのかを図示しています。
 
 
 # システムおよび機能の実行手順
@@ -58,20 +75,37 @@
 5. src/main/java/page/clapandwhistle/demo/spring/SpringDemoApplication.java を Spring Boot アプリケーションとして起動する。
 6. 以下の各種操作を行う（**URLはブラウザのアドレスバーへ直接入力してください**）
     1. http://localhost:8080/
-        - Home の表示がされる
+        1. HomeController:index の表示がされる
+        2. 「Login」リンク、もしくは「Myデスク」リンクをクリックする 
     2. http://localhost:8080/user-account/login/input
-        - ログイン画面が表示される
-        - Email「hoge01@example.local」、password「hoge01TEST」でログインを行い、「MyWorkController」の文字のある画面が表示される
+        1. ログイン画面が表示される
+        2. Email「hoge01@example.local」、password「hoge01TEST」でログインを行い、MyWorkController:index の表示がされる
+        3. 「ログアウト」ボタンをクリックする
     3. http://localhost:8080/user-account/login/input
-        - 前項とは異なる任意のメールアドレスでログインを行い、コンソールに「入力されたメールアドレスを使用するユーザはいません」のエラーメッセージが表示される
+        1. 前項とは異なる任意のメールアドレスでログインを行い、Eclipse(等のIDEが備える)コンソールに「入力されたメールアドレスを使用するユーザはいません」のエラーメッセージが表示される（今のところログイン画面へエラーメッセージ表示する実装はしていません）
     4. http://localhost:8080/user-account/new
-        - アカウント作成の申請画面が表示される
-        - Email「hoge02@example.local」、password「hoge02TEST」で「新規アカウントを作成する」ボタンのクリックを行い、Home の表示がされる
+        1. アカウント作成の申請画面が表示される
+        2. Email「hoge02@example.local」、password「hoge02TEST」で「新規アカウントを作成する」ボタンのクリックを行い、HomeController:index の表示がされる
     5. http://localhost:8080/user-account/login/input
-        - Email「hoge02@example.local」、password「hoge02TEST」でログインを行い、「MyWorkController」の文字のある画面が表示される
-    - ※実は上記の 2. と 5. の結果は要件定義・設計の考慮漏れ。
-        - 「申請中」のステータスであるにも関わらずログインできてしまっているのは、当初の想定とは違った挙動です。
-        - 後ほど修正します。(要件を「申請中でもログインはでき、別の制限がある」と変えて修正を回避するのもありか?)
+        1. ログイン画面が表示される
+        2. Email「hoge02@example.local」、password「hoge02TEST」でログインを行い、MyWorkController:index の表示がされる
+        3. 「ログアウト」ボタンをクリックする
+    6. http://localhost:8080/admin-account/login/input
+        1. 管理者ログイン画面が表示される
+        2. Email「adm01@example.local」、password「hoge01TEST」でログインを行い、SystemConsoleController:index の表示がされる
+        3. 「H2 Database」リンクより、h2-consoleへのログイン画面が表示される
+        4. JDBC URL「jdbc:h2:mem:testdb」、User Name「sa」、Passwordは未入力、の状態で「Connect」ボタンをクリックしてh2-consoleの操作画面が表示される
+    7. http://localhost:8080/admin/sys-console/index
+       1. SystemConsoleController:index の表示がされる
+       2. 「ログアウト」ボタンをクリックし、システム管理ユーザをログアウトする
+       3. HomeController:index の表示がされる
+
+```
+※実は上記の ⅱ. と ⅴ. の結果は、実は要件定義・設計の考慮漏れを含んでいます。
+「申請中」のステータスであるにも関わらずログインできてしまっているのは、当初の想定とは違った挙動であり、
+後ほど修正するつもりです。(要件を「申請中でもログインはでき、別の制限がある」と変えて修正を回避するのもありかも?)
+```
+   
 
 ---
 
@@ -121,10 +155,10 @@ DDDで言うところの [オニオンアーキテクチャ](https://qiita.com/l
 
 ## Supplement-1: LoadDatabaseクラスについて
 
-- 開発作業用に初期データを登録する為のコードを書いてあります。
+- デモンストレーション用に初期データを登録する為のコードを書いてあります。
 - maven のプロファイル機能によりこの初期データ登録処理が走る条件を切り替えらられるようにしてあります。
 
-## Supplement-2: 現状のユースケース記述に対して未実装の事項
+## Supplement-2: 動作確認可能となっているユースケースにおける未実装事項
 
 -  *ユースケース「アカウント作成の申請をする」*
     - `プレゼンテーション層`: **「氏名」「生年月日」の入力欄**
@@ -132,7 +166,7 @@ DDDで言うところの [オニオンアーキテクチャ](https://qiita.com/l
 
 ※上記で「プレゼンテーション層」の記述が指すのはMVCフレームワークの V(View) と C(Controller) のことです。
 
-## Supplement-3: のちに、上記ユースケースに追加しようとしている事項
+## Supplement-3: 動作確認可能なユースケースへ後で追加する予定の事項
 
 - アカウント作成申請時のメール送信
-- アカウント作成新生児のemail文字列バリデーション
+- アカウント作成申請時のemail文字列バリデーション
